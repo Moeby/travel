@@ -11,8 +11,4 @@ abstract class Controller
         require_once(__DIR__.'/../../app/config/dbConfig.php');
     }
 
-
-
-
-
 }

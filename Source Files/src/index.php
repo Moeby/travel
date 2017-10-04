@@ -1,20 +1,8 @@
 <?php
 
 // get constant frames to "initialize" the webpage
+global $html;
 $html = file_get_contents("../app/resources/view/template.html");
-$header = '';
-$nav = '';
-$footer = '';
-
-/*
-$header = file_get_contents("view/frames/header.html");
-$nav = file_get_contents("view/frames/nav.html");
-$footer = file_get_contents("view/frames/footer.html");
-*/
-
-$html = str_replace("{{header}}", $header, $html);
-$html = str_replace("{{nav}}", $nav, $html);
-$html = str_replace("{{footer}}", $footer, $html);
 
 //require_once('model/dbConnection/DB.php');
 //$db = new DB();
@@ -28,5 +16,6 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
 }
 
 require_once('../app/config/route.php');
+$html = str_replace("{{resourceRoot}}", RESOURCE_ROOT, $html);
 
 echo $html;

@@ -19,6 +19,7 @@
     if (array_key_exists($controller, $controllers) && in_array($action, $controllers[$controller])) {
         call($controller, $action);
     } else {
+        require_once(__DIR__.'/../../app/config/constants.php');
         $html = str_replace("{{pageTitle}}", "Error Page", $html);
         $html = str_replace("{{pageContent}}", "wrong action", $html);
     }

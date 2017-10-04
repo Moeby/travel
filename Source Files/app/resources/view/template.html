@@ -3,26 +3,31 @@
     <head>
         <title>{{pageTitle}}</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
-        <script src="js/dummy.js"></script>
+        <link rel="stylesheet" href="{{resourceRoot}}css\style.css" type="text/css">
+        <script src="{{resourceRoot}}js\dummy.js"></script>
     </head>
     <body>
         <div id="wrapper">
             <header>
-                {{header}}
+                <h1>Travelling {{username}}</h1>
             </header>
         
             <nav>
-                {{nav}}
+                <a href="index.php">Home</a> <!-- Map (hier auch den Blogeintrag anzeigen)-->
+                <a href="index.php">Blog</a>
+                <nav>
+                    <a href="index.php">{{username}}</a>
+                    <nav>
+                        <a href="index.php">Settings</a>
+                        <a href="index.php">Logout</a>
+                    </nav>
+                </nav>
             </nav>
 
             <section>
                 {{pageContent}}
             </section>
-            
-            <footer>
-                {{footer}}
-            </footer>
         </div>
     </body>
 </html>
+
