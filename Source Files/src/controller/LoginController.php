@@ -10,7 +10,7 @@
 namespace Controller;
 
 
-class LoginController {
+class LoginController extends Controller {
 
     /**
      * @Route("/login_check", name="login_check")

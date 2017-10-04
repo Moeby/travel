@@ -8,8 +8,8 @@
 
     function call($controller, $action) {
 
-        //require_once(__DIR__.'\\..\\..\\src\\controller\\' . $controller . 'Controller.php');
-        require_once('../../src/controller/' . $controller . 'Controller.php');
+        //require_once(__DIR__.'\\..\\..\\src\\controller\\' . $controller . 'controller.php');
+        require_once('../../src/controller/' . $controller . 'controller.php');
 
         switch($controller) {
             case 'Login':   $controller = new LoginController();
