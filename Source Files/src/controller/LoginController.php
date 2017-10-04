@@ -10,8 +10,9 @@ class LoginController extends Controller {
 
     }
 
-    public function loginAction($user, $password){
-
+    public function loginAction(){
+        $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/login.html");
+        $htmlLogin = str_replace("{{pageContent}}", $content, $htmlLogin);
     }
 
     function checkPassword($password, $user){
