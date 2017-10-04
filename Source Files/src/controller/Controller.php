@@ -1,13 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: natal
- * Date: 04.10.2017
- * Time: 08:52
- */
-
-namespace Controller;
-
 
 abstract class Controller
 {
