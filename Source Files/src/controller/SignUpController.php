@@ -3,8 +3,10 @@
 class SignupController extends Controller {
 
 
-    public function signupAction(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
-
+    public function signupAction() {
+        $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/signUp.html");
+        $content = str_replace("{{rootpath}}", ROOTPATH, $content);
+        $htmlLogin = str_replace("{{pageContent}}", $content, $htmlLogin);
     }
 
     function setSaltedHash($password) {
