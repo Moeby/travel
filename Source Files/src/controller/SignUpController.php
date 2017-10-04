@@ -2,9 +2,7 @@
 
 class SignupController extends Controller {
 
-    /**
-     * @Route("/signup", name="signup")
-     */
+
     public function signupAction(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
 
     }

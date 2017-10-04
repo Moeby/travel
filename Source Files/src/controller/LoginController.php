@@ -2,9 +2,6 @@
 
 class LoginController extends Controller {
 
-    /**
-     * @Route("/logout", name="logout")
-     */
     public function logoutAction() {
     }
 
@@ -17,9 +14,6 @@ class LoginController extends Controller {
 
     }
 
-    /**
-     * @Route("/login_check", name="login_check")
-     */
     function checkPassword($password, $user){
         $compPassword = $user.get_password();
         $pepper       = "NatAnA";
