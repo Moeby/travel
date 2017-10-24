@@ -112,4 +112,8 @@ class Post
         $this->postText = $postText;
     }
 
+
+    public function __construct() {
+        $this->pictures = new ArrayCollection();
+    }
 }
