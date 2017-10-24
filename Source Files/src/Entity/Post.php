@@ -40,6 +40,12 @@ class Post
      */
     private $postText;
 
+    /**
+     * One Post has Many Pictures.
+     * @OneToMany(targetEntity="Pictures", mappedBy="post")
+     */
+    private $pictures;
+
 
 
     /**
