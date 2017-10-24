@@ -11,9 +11,9 @@ class LoginController extends Controller {
     }
 
     public function loginAction(){
-        $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/login.html");
-        $content = str_replace("{{rootpath}}", ROOTPATH, $content);
-        $htmlLogin = str_replace("{{pageContent}}", $content, $htmlLogin);
+        $htmlLogin = file_get_contents(RESOURCE_ROOT."view/login.html");
+        $htmlLogin = str_replace("{{rootpath}}", ROOTPATH, $htmlLogin);
+        $htmlLogin = str_replace("{{pageContent}}", $htmlLogin, this->$html);
     }
 
     function checkPassword(){
