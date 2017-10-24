@@ -42,6 +42,12 @@ class User
     private $userSalt;
 
     /**
+     * One Product has Many Features.
+     * @OneToMany(targetEntity="Visited", mappedBy="userId")
+     */
+    private $visits;
+
+    /**
      * @return int
      */
     public function getUserId(): int
@@ -103,5 +109,25 @@ class User
     public function setUserSalt(string $userSalt)
     {
         $this->userSalt = $userSalt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVisits()
+    {
+        return $this->visits;
+    }
+
+    /**
+     * @param mixed $visits
+     */
+    public function setVisits($visits)
+    {
+        $this->visits = $visits;
+    }
+
+    public function __construct() {
+        $this->visits = new ArrayCollection();
     }
 }
