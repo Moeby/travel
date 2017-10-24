@@ -1,9 +1,8 @@
 <?php
 
-class SignupController extends Controller {
+class SignUpController extends Controller {
 
-
-    public function signupAction() {
+    public function signUpAction() {
         $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/signUp.html");
         $content = str_replace("{{rootpath}}", ROOTPATH, $content);
         $htmlLogin = str_replace("{{pageContent}}", $content, $htmlLogin);
@@ -20,5 +19,4 @@ class SignupController extends Controller {
         ];
         return password_hash($password, PASSWORD_BCRYPT, $options);
     }
-
 }

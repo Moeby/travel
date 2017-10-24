@@ -1,4 +1,5 @@
 <?php
+require_once('../app/config/constants.php');
 
 // get constant frames to "initialize" the webpage
 global $html;
@@ -11,8 +12,8 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
     $controller = $_GET['controller'];
     $action     = $_GET['action'];
 } else {
-    $controller = 'StartPage';
-    $action     = 'home';
+    $controller = 'SignUp';
+    $action     = 'signUpAction';
 }
 
 require_once('../app/config/route.php');
