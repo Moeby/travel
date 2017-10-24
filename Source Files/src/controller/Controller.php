@@ -2,16 +2,19 @@
 
 abstract class Controller
 {
+    public $html;
+
     public function __construct()
     {
         //DB Class hinzufügen
 
-        require_once(__DIR__.'/../../app/config/constants.php');
+        require_once(__DIR__ . '/../../app/config/constants.php');
         // für DB-Connect
-        require_once(__DIR__.'/../../app/config/dbConfig.php');
+        require_once(__DIR__ . '/../../app/config/dbConfig.php');
+        $this->html = file_get_contents(RESOURCE_ROOT ."view/template.html");
 
-        $html      = file_get_contents(ROOTPATH."Source Files/app/resources/view/template.html");
-        $htmlLogin = file_get_contents(ROOTPATH."Source Files/app/resources/view/templateLogin.html");
+        //TODO: check if user logged in, otherwise show this page
+        //$htmlLogin = file_get_contents(RESOURCE_ROOT ."view/templateLogin.html");
     }
 
 }
