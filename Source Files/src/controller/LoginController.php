@@ -11,13 +11,6 @@ class LoginController extends Controller {
     public $salt;
     public $pepper = "NatAnA";
     public $error  = "";
-    public $signup = "";
-    //public $signup = 'You don\'t have a Travelling I Account yet? <a href="/travel/travel/Source%20Files/src/index.php?controller=SignUp&action=signUpAction">Sign up here...</a>';
-    //TODO: logout + session close
-    public function logoutAction() {
-
-    }
-
 
     public function configureOptions(OptionsResolver $resolver) {
 
@@ -29,7 +22,6 @@ class LoginController extends Controller {
         $html = str_replace("{{pageTitle}}", 'Login', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
         $html = str_replace("{{error}}", $this->error, $html);
-        $html = str_replace("{{signup}}", $this->signup, $html);
 
         return $html;
     }
@@ -49,18 +41,20 @@ class LoginController extends Controller {
 
                 $compPassword = $this->getSaltedHash($givenPassword);
 
-                if($compPassword === $password){
+                echo $compPassword.'<br>';
+                echo $password;
+
+                //TODO: check login errors (if wrong password, no login!)
+                if(strcmp($compPassword, $password) === 0){
                     $_SESSION['user'] = $username;
                     $map = new MapController;
                     echo $map->mapAction($html);
                 } else {
-                    $this->error  = "Invalid password.";
-                    $this->signup = "";
+                    $this->error  = "Invalid credentials.";
                     echo $this->loginAction($html);
                 }
             } else {
-                $this->error  = "Username not correct.";
-                //$this->signup = 'You don\'t have a Travelling I Account yet? <a href="/travel/travel/Source%20Files/src/index.php?controller=SignUp&action=signUpAction">Sign up here...</a>';
+                $this->error  = "Invalid credentials.";
                 echo $this->loginAction($html);
             }
         }else{

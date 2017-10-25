@@ -1,6 +1,7 @@
 <?php
 namespace Travel\Controller;
-session_start();
+//TODO: keep session start here or in index.php?
+//session_start();
 
 use Travel\Entity\User;
 use Doctrine\ORM\Tools\Setup;
