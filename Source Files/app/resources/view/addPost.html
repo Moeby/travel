@@ -1,0 +1,14 @@
+<div>
+    <h2>Add a Post</h2>
+    <form action="?controller=Post&action=addPostAction" method="POST">
+        <p id="error"></p>
+        <label for="postTitle">Title: </label>
+        <input type="text" id="postTitle">
+
+        <label for="postText">Post: </label>
+        <textarea id="postText">
+        </textarea>
+
+        <input type="button" value="add post" onclick="addPost()">
+    </form>
+</div>
