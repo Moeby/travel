@@ -1,4 +1,5 @@
 <?php
+namespace Travel\Controller;
 
 class PostController extends Controller {
 
