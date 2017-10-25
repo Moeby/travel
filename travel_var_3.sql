@@ -25,6 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `location`
 --
+CREATE DATABASE travel;
+USE travel;
 
 CREATE TABLE `location` (
   `id` int(11) NOT NULL,
