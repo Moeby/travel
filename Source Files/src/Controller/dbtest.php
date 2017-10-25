@@ -36,5 +36,14 @@ $dbParams = array(
 );
 $em = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 
+$newUser = new User();
+$newUser->setUsername("max");
+$newUser->setPassword("geheim");
+$newUser->setSalt("salty");
+
+$em->persist($newUser);
+$em->flush();
+
 $xxx = $em->getRepository('Travel\Entity\User')->findAll();
-var_dump($xxx);
+
+var_dump($xxx);exit;
