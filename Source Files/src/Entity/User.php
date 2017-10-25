@@ -6,128 +6,174 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
- * @ORM\Entity
+ *
  * @ORM\Table(name="user")
+ * @ORM\Entity
  */
 class User
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $userId;
+    private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=45, nullable=false)
+     * @ORM\Column(name="username", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_password", type="string", length=60, nullable=false)
+     * @ORM\Column(name="password", type="string", length=60, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $userPassword;
+    private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_salt", type="string", length=4, nullable=false)
+     * @ORM\Column(name="salt", type="string", length=4, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $userSalt;
+    private $salt;
 
     /**
-     * One Product has Many Features.
-     * @OneToMany(targetEntity="Visited", mappedBy="userId")
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Travel\Entity\Location", inversedBy="user")
+     * @ORM\JoinTable(name="user_has_location",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="location_id", referencedColumnName="id", nullable=true)
+     *   }
+     * )
      */
-    private $visits;
+    private $location;
 
     /**
-     * @return int
+     * Constructor
      */
-    public function getUserId(): int
+    public function __construct()
     {
-        return $this->userId;
+        $this->location = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * @param int $userId
+     * Get id
+     *
+     * @return integer 
      */
-    public function setUserId(int $userId)
+    public function getId()
     {
-        $this->userId = $userId;
+        return $this->id;
     }
 
     /**
-     * @return string
+     * Set username
+     *
+     * @param string $username
+     * @return User
      */
-    public function getUsername(): string
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
     {
         return $this->username;
     }
 
     /**
-     * @param string $username
+     * Set password
+     *
+     * @param string $password
+     * @return User
      */
-    public function setUsername(string $username)
+    public function setPassword($password)
     {
-        $this->username = $username;
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get password
+     *
+     * @return string 
      */
-    public function getUserPassword(): string
+    public function getPassword()
     {
-        return $this->userPassword;
+        return $this->password;
     }
 
     /**
-     * @param string $userPassword
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
      */
-    public function setUserPassword(string $userPassword)
+    public function setSalt($salt)
     {
-        $this->userPassword = $userPassword;
+        $this->salt = $salt;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get salt
+     *
+     * @return string 
      */
-    public function getUserSalt(): string
+    public function getSalt()
     {
-        return $this->userSalt;
+        return $this->salt;
     }
 
     /**
-     * @param string $userSalt
+     * Add location
+     *
+     * @param \Travel\Entity\Location $location
+     * @return User
      */
-    public function setUserSalt(string $userSalt)
+    public function addLocation(\Travel\Entity\Location $location)
     {
-        $this->userSalt = $userSalt;
+        $this->location[] = $location;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Remove location
+     *
+     * @param \Travel\Entity\Location $location
      */
-    public function getVisits()
+    public function removeLocation(\Travel\Entity\Location $location)
     {
-        return $this->visits;
+        $this->location->removeElement($location);
     }
 
     /**
-     * @param mixed $visits
+     * Get location
+     *
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function setVisits($visits)
+    public function getLocation()
     {
-        $this->visits = $visits;
-    }
-
-    public function __construct() {
-        $this->visits = new ArrayCollection();
+        return $this->location;
     }
 }

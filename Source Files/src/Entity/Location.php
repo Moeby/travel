@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nadja
- * Date: 24.10.2017
- * Time: 16:31
- */
 
 namespace Travel\Entity;
 
@@ -12,127 +6,166 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Location
- * @ORM\Entity
+ *
  * @ORM\Table(name="location")
+ * @ORM\Entity
  */
 class Location
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="location_id", type="integer")
+     * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $locationId;
+    private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     * @ORM\Column(name="name", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="latitude", type="string", length=7, nullable=false)
+     * @ORM\Column(name="latitude", type="string", length=1, precision=0, scale=0, nullable=false, unique=false)
      */
     private $latitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="string", length=9, nullable=false)
+     * @ORM\Column(name="longitude", type="string", length=11, precision=0, scale=0, nullable=false, unique=false)
      */
     private $longitude;
 
     /**
-     * @OneToMany(targetEntity="Feature", mappedBy="product")
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Travel\Entity\User", mappedBy="location")
      */
-    private $visits;
+    private $user;
 
     /**
-     * @return int
+     * Constructor
      */
-    public function getLocationId(): int
+    public function __construct()
     {
-        return $this->locationId;
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * @param int $locationId
+     * Get id
+     *
+     * @return integer 
      */
-    public function setLocationId(int $locationId)
+    public function getId()
     {
-        $this->locationId = $locationId;
+        return $this->id;
     }
 
     /**
-     * @return string
+     * Set name
+     *
+     * @param string $name
+     * @return Location
      */
-    public function getName(): string
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * Set latitude
+     *
+     * @param string $latitude
+     * @return Location
      */
-    public function setName(string $name)
+    public function setLatitude($latitude)
     {
-        $this->name = $name;
+        $this->latitude = $latitude;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get latitude
+     *
+     * @return string 
      */
-    public function getLatitude(): string
+    public function getLatitude()
     {
         return $this->latitude;
     }
 
     /**
-     * @param string $latitude
+     * Set longitude
+     *
+     * @param string $longitude
+     * @return Location
      */
-    public function setLatitude(string $latitude)
+    public function setLongitude($longitude)
     {
-        $this->latitude = $latitude;
+        $this->longitude = $longitude;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get longitude
+     *
+     * @return string 
      */
-    public function getLongitude(): string
+    public function getLongitude()
     {
         return $this->longitude;
     }
 
     /**
-     * @param string $longitude
+     * Add user
+     *
+     * @param \Travel\Entity\User $user
+     * @return Location
      */
-    public function setLongitude(string $longitude)
+    public function addUser(\Travel\Entity\User $user)
     {
-        $this->longitude = $longitude;
+        $this->user[] = $user;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Remove user
+     *
+     * @param \Travel\Entity\User $user
      */
-    public function getVisits()
+    public function removeUser(\Travel\Entity\User $user)
     {
-        return $this->visits;
+        $this->user->removeElement($user);
     }
 
     /**
-     * @param mixed $visits
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function setVisits($visits)
+    public function getUser()
     {
-        $this->visits = $visits;
-    }
-
-    public function __construct() {
-        $this->visits = new ArrayCollection();
+        return $this->user;
     }
 }

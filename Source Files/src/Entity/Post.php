@@ -3,117 +3,156 @@
 namespace Travel\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
- * User
+ * Post
+ *
+ * @ORM\Table(name="post", indexes={@ORM\Index(name="fk_post_user_has_location1_idx", columns={"user_has_location_user_id", "user_has_location_location_id"})})
  * @ORM\Entity
- * @ORM\Table(name="post")
  */
 class Post
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="post_id", type="integer")
+     * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $postId;
+    private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="post_date", type="string", length=45, nullable=false)
+     * @ORM\Column(name="title", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $postDate;
+    private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="post_title", type="string", length=45, nullable=false)
+     * @ORM\Column(name="text", type="string", length=450, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $postTitle;
+    private $text;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="post_text", type="string", length=45, nullable=false)
+     * @ORM\Column(name="date", type="datetime", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $postText;
+    private $date;
 
     /**
-     * One Post has Many Pictures.
-     * @OneToMany(targetEntity="Pictures", mappedBy="post")
+     * @var \Travel\Entity\UserHasLocation
+     *
+     * @ORM\ManyToOne(targetEntity="Travel\Entity\UserHasLocation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_has_location_user_id", referencedColumnName="user_id", nullable=true),
+     *   @ORM\JoinColumn(name="user_has_location_location_id", referencedColumnName="location_id", nullable=true)
+     * })
      */
-    private $pictures;
-
+    private $userHasLocationUser;
 
 
     /**
-     * @return int
+     * Get id
+     *
+     * @return integer 
      */
-    public function getPostId(): int
+    public function getId()
     {
-        return $this->postId;
+        return $this->id;
     }
 
     /**
-     * @param int $postId
+     * Set title
+     *
+     * @param string $title
+     * @return Post
      */
-    public function setPostId(int $postId)
+    public function setTitle($title)
     {
-        $this->postId = $postId;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get title
+     *
+     * @return string 
      */
-    public function getPostDate(): string
+    public function getTitle()
     {
-        return $this->postDate;
+        return $this->title;
     }
 
     /**
-     * @param string $postDate
+     * Set text
+     *
+     * @param string $text
+     * @return Post
      */
-    public function setPostDate(string $postDate)
+    public function setText($text)
     {
-        $this->postDate = $postDate;
+        $this->text = $text;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get text
+     *
+     * @return string 
      */
-    public function getPostTitle(): string
+    public function getText()
     {
-        return $this->postTitle;
+        return $this->text;
     }
 
     /**
-     * @param string $postTitle
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Post
      */
-    public function setPostTitle(string $postTitle)
+    public function setDate($date)
     {
-        $this->postTitle = $postTitle;
+        $this->date = $date;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get date
+     *
+     * @return \DateTime 
      */
-    public function getPostText(): string
+    public function getDate()
     {
-        return $this->postText;
+        return $this->date;
     }
 
     /**
-     * @param string $postText
+     * Set userHasLocationUser
+     *
+     * @param \Travel\Entity\UserHasLocation $userHasLocationUser
+     * @return Post
      */
-    public function setPostText(string $postText)
+    public function setUserHasLocationUser(\Travel\Entity\UserHasLocation $userHasLocationUser = null)
     {
-        $this->postText = $postText;
+        $this->userHasLocationUser = $userHasLocationUser;
+
+        return $this;
     }
 
-
-    public function __construct() {
-        $this->pictures = new ArrayCollection();
+    /**
+     * Get userHasLocationUser
+     *
+     * @return \Travel\Entity\UserHasLocation 
+     */
+    public function getUserHasLocationUser()
+    {
+        return $this->userHasLocationUser;
     }
 }

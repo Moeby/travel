@@ -5,103 +5,123 @@ namespace Travel\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * User
+ * Picture
+ *
+ * @ORM\Table(name="picture", indexes={@ORM\Index(name="fk_picture_post_idx", columns={"post_id"})})
  * @ORM\Entity
- * @ORM\Table(name="picture")
  */
 class Picture
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="picture_id", type="integer")
+     * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $pictureId;
+    private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="picture_name", type="string", length=45, nullable=false)
+     * @ORM\Column(name="name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $pictureName;
+    private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="picture_filename", type="string", length=45, nullable=false)
+     * @ORM\Column(name="filename", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $pictureFilename;
+    private $filename;
 
     /**
-     * Many Features have One Product.
-     * @ManyToOne(targetEntity="Post", inversedBy="pictures")
-     * @JoinColumn(name="post_fk", referencedColumnName="post_id")
+     * @var \Travel\Entity\Post
+     *
+     * @ORM\ManyToOne(targetEntity="Travel\Entity\Post")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=true)
+     * })
      */
     private $post;
 
+
     /**
-     * @return int
+     * Get id
+     *
+     * @return integer 
      */
-    public function getPictureId(): int
+    public function getId()
     {
-        return $this->pictureId;
+        return $this->id;
     }
 
     /**
-     * @param int $pictureId
+     * Set name
+     *
+     * @param string $name
+     * @return Picture
      */
-    public function setPictureId(int $pictureId)
+    public function setName($name)
     {
-        $this->pictureId = $pictureId;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get name
+     *
+     * @return string 
      */
-    public function getPictureName(): string
+    public function getName()
     {
-        return $this->pictureName;
+        return $this->name;
     }
 
     /**
-     * @param string $pictureName
+     * Set filename
+     *
+     * @param string $filename
+     * @return Picture
      */
-    public function setPictureName(string $pictureName)
+    public function setFilename($filename)
     {
-        $this->pictureName = $pictureName;
+        $this->filename = $filename;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get filename
+     *
+     * @return string 
      */
-    public function getPictureFilename(): string
+    public function getFilename()
     {
-        return $this->pictureFilename;
+        return $this->filename;
     }
 
     /**
-     * @param string $pictureFilename
+     * Set post
+     *
+     * @param \Travel\Entity\Post $post
+     * @return Picture
      */
-    public function setPictureFilename(string $pictureFilename)
+    public function setPost(\Travel\Entity\Post $post = null)
     {
-        $this->pictureFilename = $pictureFilename;
+        $this->post = $post;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get post
+     *
+     * @return \Travel\Entity\Post 
      */
     public function getPost()
     {
         return $this->post;
-    }
-
-    /**
-     * @param mixed $post
-     */
-    public function setPost($post)
-    {
-        $this->post = $post;
     }
 }
