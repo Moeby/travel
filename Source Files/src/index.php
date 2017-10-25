@@ -9,6 +9,7 @@ if (isset($_SESSION['user'])) {
 } else {
     $html = file_get_contents("../app/resources/view/templateLogin.html");
 }
+$html = str_replace("{{goToResource}}", '../app/resources/', $html);
 
 //require_once('model/dbConnection/DB.php');
 //$db = new DB();
@@ -22,7 +23,5 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
 }
 
 require_once('../app/config/route.php');
-//$html = str_replace("{{resourceRoot}}", RESOURCE_ROOT, $html);
-$html = str_replace("{{goToResource}}", '../app/resources/', $html);
 
 echo $html;
