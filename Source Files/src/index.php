@@ -17,8 +17,8 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
     $controller = $_GET['controller'];
     $action     = $_GET['action'];
 } else {
-    $controller = 'SignUp';
-    $action     = 'signUpAction';
+    $controller = 'Login';
+    $action     = 'loginAction';
 }
 
 require_once('../app/config/route.php');

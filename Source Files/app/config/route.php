@@ -3,11 +3,13 @@
 namespace Travel\Controller;
 // we're adding an entry for the new controller and its actions
 //@hint: Look into reflections to have less manual work
+use Travel\LoginController\LogoutController;
+
 $actions = [
-    'LoginCheck' => ['checkLoginAction'],
     'SignUp' => ['signUpAction', 'registerAction'],
     'Login' => ['loginAction'],
     'Post' => ['addPostAction', 'showPostsAction'],
+    'Logout' => ['logoutAction']
 ];
 /*var_dump( array_key_exists($controller, $actions)  );
 echo  ' and ';
@@ -44,6 +46,9 @@ function call($controller, $action, $html)
             break;
         case 'Post':
             $controller = new PostController();
+            break;
+        case 'Logout' :
+            $controller = new LogoutController();
             break;
     }
     $html = $controller->$action($html);
