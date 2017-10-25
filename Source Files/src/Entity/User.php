@@ -174,6 +174,6 @@ class User
      */
     public function getLocation()
     {
-        return $this->location;
+        return $this->location; 
     }
 }
