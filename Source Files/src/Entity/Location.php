@@ -47,7 +47,7 @@ class Location
      *
      * @ORM\ManyToMany(targetEntity="Travel\Entity\User", mappedBy="location")
      */
-    private $user;
+    private $user; 
 
     /**
      * Constructor
