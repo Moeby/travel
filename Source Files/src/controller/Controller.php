@@ -28,7 +28,7 @@ abstract class Controller
         $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
             ['src/Entity'],
             true,
-            __DIR__ . '../cache/proxies',
+            'C:\tmp\cache',//__DIR__ . '../cache/proxies',
             null,
             false
         );
