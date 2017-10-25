@@ -9,19 +9,26 @@
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['geochart'],
-            // Note: you will need to get a mapsApiKey for your project.
-            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
         });
         google.charts.setOnLoadCallback(drawRegionsMap);
 
         function drawRegionsMap() {
             var data = google.visualization.arrayToDataTable([
                 ['Latitude', 'Longitude', 'Postname'],
+                //TODO: change to postarray
                 [37.4232, -122.0853, 'San Francisco 2017']
             ]);
 
-            var options = { icons: '../icons/map-marker-icon-pink.png'};
+            var options = { displayMode: 'markers'
+                //TODO: change icon
+                /*icons: {
+                default: {
+                    chst=d_map_pin_letter,
+                    chld=,000000,000000
+                }
+                }
+                */
+            };
 
             var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
@@ -30,6 +37,7 @@
             google.visualization.events.addListener(chart, 'select', selectHandler);
 
             function selectHandler(e) {
+                //TODO: get postItem
                 alert('Change to post.');
             }
         }

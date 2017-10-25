@@ -1,14 +1,14 @@
 <div>
     <h2>Login</h2>
-    <form action="{{rootpath}}Source Files/src/controller/LoginController.php" method="post">
+    <form action="?controller=Login&action=registerAction" method="post">
         <label for="username">Username: </label>
-            <input type="text" name="username" id="username">
+            <input name="username" type="text" id="username">
 
         <label for="password">Password: </label>
-            <input type="password" name="password" id="password">
+            <input name="password" type="password" id="password">
 
         <p>You don't have a Travelling I Account yet? <a href="{{rootpath}}Source Files/src/index.php">Sign up here...</a> </p>
 
-        <input type="button" value="Login" onclick="checkPassword()">
+        <input type="submit" value="Login">
     </form>
 </div>
