@@ -3,11 +3,6 @@ body{
     margin-left: 260px;
 }
 
-/* header */
-header {
-
-}
-
 /* navigation */
 nav {
     height: 100%;
@@ -33,4 +28,20 @@ nav a{
 /* change color by mouse over */
 nav a:hover{
     color: #f1f1f1;
+}
+
+form{ }
+
+form label{
+    float:left;
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+form input{
+    clear: right;
+    margin-bottom: 10px;
+}
+form input.button{
+    margin-left: 150px;
 }
