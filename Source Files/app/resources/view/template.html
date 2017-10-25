@@ -3,8 +3,8 @@
     <head>
         <title>{{pageTitle}}</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="{{goToResource}}css\style.css" type="text/css">
-        <script src="{{goToResource}}js\dummy.js"></script>
+        <link rel="stylesheet" href="{{goToResource}}css/style.css" type="text/css">
+        <script src="{{goToResource}}js/script.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -16,7 +16,10 @@
                 <a href="index.php">Home</a> <!-- Map (hier auch den Blogeintrag anzeigen)-->
                 <a href="index.php">Blog</a>
                 <a href="index.php">{{username}}</a>
-                <nav class="subNav">
+                <a href="?controller=Logout&action=logoutAction">Logout</a>
+                <a >following are for layout-tests only</a>
+                <a onClick="openSubNav('userNav')">{{username}}</a>
+                <nav class="subNav" id="userNav">
                     <a href="index.php">Settings</a>
                     <a href="?controller=Logout&action=logoutAction">Logout</a>
                 </nav>
@@ -28,4 +31,3 @@
         </div>
     </body>
 </html>
-
