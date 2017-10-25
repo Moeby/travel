@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map</title>
+    <script type='text/javascript' src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="regions_div" style="width: 900px; height: 500px;"></div>
+
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['Latitude', 'Longitude', 'Postname'],
+                [37.4232, -122.0853, 'San Francisco 2017']
+            ]);
+
+            var options = { icons: '../icons/map-marker-icon-pink.png'};
+
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+            chart.draw(data, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                alert('Change to post.');
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
