@@ -5,6 +5,7 @@
                 'LoginCheck'    => ['checkLoginAction'],
                 'SignUp'   => ['signUpAction', 'registerAction'],
                 'Login'     => ['loginAction'],
+                'Post'      => ['addPostAction', 'showPostsAction'],
     ];
 /*var_dump( array_key_exists($controller, $actions)  );
 echo  ' and ';
@@ -28,7 +29,8 @@ var_dump( in_array($action, $actions[$controller]) );*/
                 //require_once(__DIR__.'\\..\\..\\src\\controller\\' . $controller . 'controller.php');
                 require_once(ROOTPATH.'Source Files/src/controller/Controller.php');
                 require_once(ROOTPATH.'Source Files/src/controller/' . $controller . 'Controller.php');
-        
+
+
         //@hint: Look into reflections to have less manual work                
         switch ($controller) {
             case 'SignUp':
@@ -37,6 +39,9 @@ var_dump( in_array($action, $actions[$controller]) );*/
             case 'Login':
                         $controller = new LoginController();
                             echo 'login';
+                break;
+            case 'Post':
+                        $controller = new PostController();
                 break;
         }
         $html = $controller->$action($html);
