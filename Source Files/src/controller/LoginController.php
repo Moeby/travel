@@ -12,11 +12,10 @@ class LoginController extends Controller {
     public $pepper = "NatAnA";
     public $error  = "";
     public $signup = "";
-    //public $signup = 'You don\'t have a Travelling I Account yet? <a href=\"?controller=SignUp&action=signUpAction\">Sign up here...</a>';
-
+    //public $signup = 'You don\'t have a Travelling I Account yet? <a href="/travel/travel/Source%20Files/src/index.php?controller=SignUp&action=signUpAction">Sign up here...</a>';
     //TODO: logout + session close
     public function logoutAction() {
-        
+
     }
 
 
@@ -42,9 +41,9 @@ class LoginController extends Controller {
 
             $criteria     = array('username'=>$username);
             $em           = $this->getEntityManager();
-            $user         = $em->getRepository('Travel\Entity\User')->findBy($criteria);
+            $user         = $em->getRepository('Travel\Entity\User')->findOneBy($criteria);
 
-            if(empty($user)){
+            if(!empty($user)){
                 $password     = $user->getPassword();
                 $this->salt   = $user->getSalt();
 
@@ -61,7 +60,7 @@ class LoginController extends Controller {
                 }
             } else {
                 $this->error  = "Username not correct.";
-                //$this->signup = 'You don\'t have a Travelling I Account yet? <a href=\"?controller=SignUp&action=signUpAction\">Sign up here...</a>';
+                //$this->signup = 'You don\'t have a Travelling I Account yet? <a href="/travel/travel/Source%20Files/src/index.php?controller=SignUp&action=signUpAction">Sign up here...</a>';
                 echo $this->loginAction($html);
             }
         }else{

@@ -3,11 +3,11 @@
 namespace Travel\Controller;
 // we're adding an entry for the new controller and its actions
 //@hint: Look into reflections to have less manual work
-use Travel\LoginController\LogoutController;
+//use Travel\LoginController\LogoutController;
 
 $actions = [
     'SignUp' => ['signUpAction', 'registerAction'],
-    'Login' => ['loginAction'],
+    'Login' => ['loginAction', 'checkUserAction'],
     'Post' => ['addPostAction', 'showPostsAction'],
     'Logout' => ['logoutAction']
 ];

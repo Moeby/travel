@@ -1,13 +1,14 @@
 <?php
 namespace Travel\Controller;
 
-namespace Travel\LoginController;
+use Travel\Controller\LoginController;
 
 class LogoutController extends Controller
 {
     public function logoutAction($html){
-        session_write_close();
-        $login = new LogoutController();
+        session_register_shutdown();
+        $html = file_get_contents("../app/resources/view/templateLogin.html");
+        $login = new LoginController();
         $login->loginAction($html);
     }
 }
