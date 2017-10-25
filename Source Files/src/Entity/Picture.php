@@ -43,7 +43,7 @@ class Picture
      *   @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=true)
      * })
      */
-    private $post;
+    private $post;   
 
 
     /**
