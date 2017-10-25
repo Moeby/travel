@@ -9,6 +9,6 @@ class LogoutController extends Controller
         session_register_shutdown();
         $html = file_get_contents("../app/resources/view/templateLogin.html");
         $login = new LoginController();
-        $login->loginAction($html);
+        echo $login->loginAction($html);
     }
 }

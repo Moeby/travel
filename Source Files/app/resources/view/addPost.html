@@ -1,14 +1,16 @@
 <div>
     <h2>Add a Post</h2>
-    <form action="?controller=Post&action=addPostAction" method="POST">
+    <form action="?controller=Post&action=addPostAction" enctype="multipart/form-data" method="POST">
         <p id="error"></p>
         <label for="postTitle">Title: </label>
         <input name="postTitle" type="text" id="postTitle">
 
         <label for="postText">Post: </label>
-        <textarea id="postText">
+        <textarea id="postText" name="postText">
         </textarea>
 
-        <input type="button" value="add post" onclick="addPost()">
+        <input type="file" name="pictures[]" multiple>
+
+        <input type="submit" value="add post">
     </form>
 </div>

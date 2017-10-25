@@ -3,7 +3,7 @@ namespace Travel\Controller;
 
 class PostController extends Controller {
 
-    public function addPostAction($html){
+    public function showAddPostAction($html){
         $content = file_get_contents(RESOURCE_ROOT."view/addPost.html");
 
         $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
@@ -22,6 +22,17 @@ class PostController extends Controller {
         //$this->getPost($html);
 
         return $html;
+    }
+
+    public function addPostAction(){
+        if (isset($_FILES['pictures'])) {
+            $myFile = $_FILES['pictures'];
+            $fileCount = count($myFile["name"]);
+
+            for ($i = 0; $i < $fileCount; $i++) {
+                    echo $myFile["name"][$i];
+            }
+        }
     }
 
     function getPost($html){
