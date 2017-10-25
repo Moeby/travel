@@ -25,7 +25,7 @@ class LoginController extends Controller {
 
     /*http://localhost/travel/travel/Source%20Files/src/index.php?controller=Login&action=loginAction*/
     public function loginAction($html){
-        $content = file_get_contents(RESOURCE_ROOT."view/signUp.html");
+        $content = file_get_contents(RESOURCE_ROOT."view/login.html");
         $html = str_replace("{{pageTitle}}", 'Login', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
         $html = str_replace("{{error}}", $this->error, $html);
