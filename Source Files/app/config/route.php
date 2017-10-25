@@ -4,7 +4,6 @@ namespace Travel\Controller;
 // we're adding an entry for the new controller and its actions
 //@hint: Look into reflections to have less manual work
 $actions = [
-    'LoginCheck' => ['checkLoginAction'],
     'SignUp' => ['signUpAction', 'registerAction'],
     'Login' => ['loginAction'],
     'Post' => ['addPostAction', 'showPostsAction'],
