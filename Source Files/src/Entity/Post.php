@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Post
  *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="fk_post_user_has_location1_idx", columns={"user_has_location_user_id", "user_has_location_location_id"})})
+ * @ORM\Table(name="post")
  * @ORM\Entity
  */
 class Post
@@ -41,18 +41,6 @@ class Post
      * @ORM\Column(name="date", type="datetime", precision=0, scale=0, nullable=true, unique=false)
      */
     private $date;
-
-    /**
-     * @var \Travel\Entity\UserHasLocation
-     *
-     * @ORM\ManyToOne(targetEntity="Travel\Entity\UserHasLocation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_has_location_user_id", referencedColumnName="user_id", nullable=true),
-     *   @ORM\JoinColumn(name="user_has_location_location_id", referencedColumnName="location_id", nullable=true)
-     * })
-     */
-    private $userHasLocationUser;
-
 
     /**
      * Get id

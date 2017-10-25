@@ -1,6 +1,5 @@
 <?php
-
-
+namespace Travel\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -45,6 +44,56 @@ class UserHasLocation
      * })
      */
     private $user;
+
+    /**
+     * @return Location
+     */
+    public function getLocation(): Location
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation(\Travel\Entity\Location $location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function setPost(\Travel\Entity\Post $post)
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(\Travel\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+
 
 
 }

@@ -1,6 +1,4 @@
 <?php
-//namespace Travel;
-//
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/vendor/autoload.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
@@ -24,7 +22,7 @@ $dbParams = array(
 $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
     ['src/Entity'],
     true,
-    __DIR__.'../cache/proxies',
+    'C:\tmp\cache',
     null,
     false
 );
@@ -36,6 +34,7 @@ $dbParams = array(
 );
 $em = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 
+/*
 $newUser = new User();
 $newUser->setUsername("max");
 $newUser->setPassword("geheim");
@@ -44,6 +43,39 @@ $newUser->setSalt("salty");
 $em->persist($newUser);
 $em->flush();
 
-$xxx = $em->getRepository('Travel\Entity\User')->findAll();
+$newLocation = new \Travel\Entity\Location();
+$newLocation->setLatitude("12345");
+$newLocation->setLongitude("12345");
+$newLocation->setName("Basel");
 
-var_dump($xxx);exit;
+$em->persist($newLocation);
+$em->flush();
+
+$date = new DateTime();
+$newPost = new \Travel\Entity\Post();
+$newPost->setDate($date);
+$newPost->setText("test");
+$newPost->setTitle("a very important title");
+
+$em->persist($newPost);
+$em->flush();
+
+$userHasLocation = new \Travel\Entity\UserHasLocation();
+$userHasLocation->setLocation($newLocation);
+$userHasLocation->setUser($newUser);
+$userHasLocation->setPost($newPost);
+
+$em->persist($userHasLocation);
+$em->flush();
+
+*/
+
+$xxx = $em->getRepository('Travel\Entity\User')->findOneBy(array("id" => 6));
+$yyy =$xxx->getLocation();
+
+foreach ($yyy as $location){
+   // var_dump($location->getName());
+    $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $xxx, "location" => $location));
+    var_dump($userHasLocation->getPost()->getTitle());
+}
+exit;
