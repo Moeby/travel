@@ -11,7 +11,8 @@ class LoginController extends Controller {
     public $salt;
     public $pepper = "NatAnA";
     public $error  = "";
-    public $signup = 'You don\'t have a Travelling I Account yet? <a href=\"controller=SignUp&action=signUpAction\">Sign up here...</a>';
+    public $signup = "";
+    //public $signup = 'You don\'t have a Travelling I Account yet? <a href=\"?controller=SignUp&action=signUpAction\">Sign up here...</a>';
 
     //TODO: logout + session close
     public function logoutAction() {
@@ -60,7 +61,7 @@ class LoginController extends Controller {
                 }
             } else {
                 $this->error  = "Username not correct.";
-                $this->signup = 'You don\'t have a Travelling I Account yet? <a href=\"controller=SignUp&action=signUpAction\">Sign up here...</a>';
+                //$this->signup = 'You don\'t have a Travelling I Account yet? <a href=\"?controller=SignUp&action=signUpAction\">Sign up here...</a>';
                 echo $this->loginAction($html);
             }
         }else{
