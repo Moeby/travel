@@ -34,13 +34,3 @@ nav a{
 nav a:hover{
     color: #f1f1f1;
 }
-/* init subnav */
-nav.subNav{
-    width: 0px; /* change this with JS*/
-}
-/* make everything in the subNav smaller */
-nav.subNav a{
-    margin-left: 10px;
-    padding: 4px 4px 4px 16px;
-    font-size: 20px;
-}
