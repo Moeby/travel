@@ -1,4 +1,6 @@
 <?php
+namespace Travel\Controller;
+session_start();
 
 use Travel\Entity\User;
 use Doctrine\ORM\Tools\Setup;
@@ -9,20 +11,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config
 
 abstract class Controller
 {
-    public $html;
-
-    public function __construct()
-    {
-        //DB Class hinzufügen
-
-        require_once(__DIR__ . '/../../app/config/constants.php');
-        // für DB-Connect
-        require_once(__DIR__ . '/../../app/config/dbConfig.php');
-        $this->html = file_get_contents(RESOURCE_ROOT . "view/template.html");
-
-        //TODO: check if user logged in, otherwise show this page
-        //$htmlLogin = file_get_contents(RESOURCE_ROOT ."view/templateLogin.html");
-    }
 
     public function getEntityManager()
     {

@@ -1,9 +1,14 @@
 <?php
+session_start();
 require_once('../app/config/constants.php');
 
 // get constant frames to "initialize" the webpage
 global $html;
-$html = file_get_contents("../app/resources/view/template.html");
+if (isset($_SESSION['user'])) {
+    $html = file_get_contents("../app/resources/view/template.html");
+} else {
+    $html = file_get_contents("../app/resources/view/templateLogin.html");
+}
 
 //require_once('model/dbConnection/DB.php');
 //$db = new DB();

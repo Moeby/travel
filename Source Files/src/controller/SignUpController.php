@@ -1,6 +1,8 @@
 <?php
+namespace Travel\Controller;
 
 use Travel\Entity\User;
+use Travel\Controller\MapController;
 
 class SignUpController extends Controller
 {
@@ -37,11 +39,16 @@ class SignUpController extends Controller
 
                 $em->persist($newUser);
                 $em->flush();
+
+                //set logged in user in Session
+                $_SESSION['user'] = $_POST['username'];
+                $map = new MapController;
+                echo $map->mapAction($html);
             }
         } else {
             echo "Empty post request";
         }
-        exit;//redirect here
+        $this->signUpAction($html);
     }
 
     private function newUser($username, $password)
@@ -57,7 +64,7 @@ class SignUpController extends Controller
         ];
         return password_hash($password . $this->pepper, PASSWORD_BCRYPT, $options);
     }
-    
+
     public function genSalt() {
         $seed = '';
         for($i = 0; $i < 16; $i++) {
