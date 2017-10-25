@@ -7,9 +7,10 @@ namespace Travel\Controller;
 
 $actions = [
     'SignUp' => ['signUpAction', 'registerAction'],
-    'Login' => ['loginAction', 'checkUserAction'],
-    'Post' =>  ['showAddPostAction', 'showPostsAction', 'addPostAction'],
-    'Logout' => ['logoutAction']
+    'Login'  => ['loginAction', 'checkUserAction'],
+    'Post'   => ['showAddPostAction', 'showPostsAction', 'addPostAction'],
+    'Logout' => ['logoutAction'],
+    'Map'    => ['mapAction']
 ];
 /*var_dump( array_key_exists($controller, $actions)  );
 echo  ' and ';
@@ -42,13 +43,15 @@ function call($controller, $action, $html)
             break;
         case 'Login':
             $controller = new LoginController();
-            echo 'login';
             break;
         case 'Post':
             $controller = new PostController();
             break;
-        case 'Logout' :
+        case 'Logout':
             $controller = new LogoutController();
+            break;
+        case 'Map':
+            $controller = new MapController();
             break;
     }
     $html = $controller->$action($html);
