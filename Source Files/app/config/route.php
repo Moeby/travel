@@ -8,7 +8,7 @@ namespace Travel\Controller;
 $actions = [
     'SignUp' => ['signUpAction', 'registerAction'],
     'Login' => ['loginAction', 'checkUserAction'],
-    'Post' => ['addPostAction', 'showPostsAction'],
+    'Post' =>  ['showAddPostAction', 'showPostsAction', 'addPostAction'],
     'Logout' => ['logoutAction']
 ];
 /*var_dump( array_key_exists($controller, $actions)  );
