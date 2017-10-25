@@ -1,16 +1,16 @@
 <div>
     <h2>Sign up</h2>
-    <form action="?controller=SignUp&action=registerAction" method="POST"> <!-- {{rootpath}}Source Files/src/controller/SignUpController.php --> <!-- action="http://localhost/travel/travel/Source%20Files/src/Controller/SignUpController.php" -->
+    <form action="?controller=SignUp&action=registerAction" method="POST">
         <!-- check if username is already taken -->
         <p id="error"></p>
         <label for="username">Username: </label>
-            <input type="text" id="username">
+            <input name="username" type="text" id="username">
 
         <label for="password">Password: </label>
-            <input type="password" id="password" required>
+            <input name="password" type="password" id="password" required>
 
         <label for="password_confirm">Repeat password: </label>
-            <input type="password" id="password_confirm" oninput="check(this)"  required>
+            <input name="password2" type="password" id="password_confirm" oninput="check(this)"  required>
 
         <input type="submit" value="Sign up" > <!-- type="button" onclick="signup()" -->
     </form>
@@ -24,33 +24,4 @@
             input.setCustomValidity('');            
         }
     }
-    
-    // function signup(){
-    //     post('/contact/', {name: 'Johnny Bravo'});
-    //     alert('signed up :)');        
-    // }
-    // function post(path, params, method) {
-    //     method = method || "post"; // Set method to post by default if not specified.
-
-    //     // The rest of this code assumes you are not using a library.
-    //     // It can be made less wordy if you use one.
-    //     var form = document.createElement("form");
-    //     form.setAttribute("method", method);
-    //     form.setAttribute("action", path);
-
-    //     for(var key in params) {
-    //         if(params.hasOwnProperty(key)) {
-    //             var hiddenField = document.createElement("input");
-    //             hiddenField.setAttribute("type", "hidden");
-    //             hiddenField.setAttribute("name", key);
-    //             hiddenField.setAttribute("value", params[key]);
-
-    //             form.appendChild(hiddenField);
-    //         }
-    //     }
-
-    //     document.body.appendChild(form);
-    //     form.submit();
-    // }
-
 </script>

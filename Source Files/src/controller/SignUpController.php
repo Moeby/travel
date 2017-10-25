@@ -1,11 +1,9 @@
 <?php
-
+require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
 class SignUpController extends Controller {
 
     public function signUpAction($html) {
         $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/signUp.html");
-        //$content = str_replace("{{rootpath}}", ROOTPATH, $content);
-        //$htmlLogin = str_replace("{{pageContent}}", $content, $htmlLogin);
         $html = str_replace("{{pageTitle}}", 'Signup', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
 
@@ -13,10 +11,13 @@ class SignUpController extends Controller {
     }
 
     public function registerAction($html){
+        echo $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
         if (!empty($_POST)){
-            var_dump($_POST);
+            $em = $this->getEntityManager();
+            $xxx = $em->getRepository('Travel\Entity\User')->findAll();
+            var_dump($xxx);
         }else{
-            echo "empry post request or get request";           
+            echo "Empty post request";
         }
         exit;//redirect here
     }
