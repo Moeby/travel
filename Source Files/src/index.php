@@ -22,6 +22,7 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
 }
 
 require_once('../app/config/route.php');
-$html = str_replace("{{resourceRoot}}", RESOURCE_ROOT, $html);
+//$html = str_replace("{{resourceRoot}}", RESOURCE_ROOT, $html);
+$html = str_replace("{{goToResource}}", '../app/resources/', $html);
 
 echo $html;
