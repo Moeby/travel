@@ -31,14 +31,14 @@ class Location
     /**
      * @var string
      *
-     * @ORM\Column(name="latitude", type="string", length=1, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="latitude", type="string", length=9, precision=0, scale=0, nullable=false, unique=false)
      */
     private $latitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="string", length=11, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="longitude", type="string", length=9, precision=0, scale=0, nullable=false, unique=false)
      */
     private $longitude;
 

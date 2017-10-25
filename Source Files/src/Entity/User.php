@@ -38,7 +38,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="salt", type="string", length=4, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="salt", type="string", length=22, precision=0, scale=0, nullable=false, unique=false)
      */
     private $salt;
 

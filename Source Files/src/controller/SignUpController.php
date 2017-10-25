@@ -1,40 +1,71 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
-class SignUpController extends Controller {
 
-    public function signUpAction($html) {
-        $content = file_get_contents(ROOTPATH."Source Files/app/resources/view/signUp.html");
+use Travel\Entity\User;
+
+class SignUpController extends Controller
+{
+    public $error = "";
+    public $salt;
+    public $pepper = "NatAnA";
+
+    public function signUpAction($html)
+    {
+        $content = file_get_contents(ROOTPATH . "Source Files/app/resources/view/signUp.html");
         $html = str_replace("{{pageTitle}}", 'Signup', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
+        $html = str_replace("{{error}}", $this->error, $html);
 
         return $html;
     }
 
-    public function registerAction($html){
+    public function registerAction($html)
+    {
         echo $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
-        if (!empty($_POST)){
+        if (!empty($_POST)) {
             $em = $this->getEntityManager();
-            $xxx = $em->getRepository('Travel\Entity\User')->findAll();
-            var_dump($xxx);
-        }else{
+            //check if username already taken
+            $username_exists = $em->getRepository('Travel\Entity\User')->findOneBy(array('username' => $_POST['username']));
+
+            if (!empty($username_exists)) {
+                $this->error = "Username already taken. Please choose a different one.";
+                echo $this->signUpAction($html);
+            } else {
+                $newUser = new User();
+                $newUser->setUsername($_POST['username']);
+                $newUser->setPassword($this->getSaltedHash($_POST['password']));
+                $newUser->setSalt($this->salt);
+
+                $em->persist($newUser);
+                $em->flush();
+            }
+        } else {
             echo "Empty post request";
         }
         exit;//redirect here
     }
 
-    private function newUser($username,$password){
-        
+    private function newUser($username, $password)
+    {
+
     }
 
-    function setSaltedHash($password) {
-        $pepper     = "NatAnA";
-        $salt       = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM);
-        //salt noch in DB speichern!
-        $saltpepper = $salt + $pepper;
-        $options    = [
-            'salt' => $saltpepper
-            //    $salt = uniqid(mt_rand(), true);
+    function getSaltedHash($password)
+    {
+        $this->salt = $this->genSalt();
+        $options = [
+            'salt' => $this->salt
         ];
-        return password_hash($password, PASSWORD_BCRYPT, $options);
+        return password_hash($password . $this->pepper, PASSWORD_BCRYPT, $options);
+    }
+    
+    public function genSalt() {
+        $seed = '';
+        for($i = 0; $i < 16; $i++) {
+            $seed .= chr(mt_rand(0, 255));
+        }
+        /* GenSalt */
+        $salt = substr(strtr(base64_encode($seed), '+', '.'), 0, 22);
+        /* Return */
+        return $salt;
     }
 }
