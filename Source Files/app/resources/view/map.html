@@ -4,67 +4,98 @@
     <meta charset="UTF-8">
     <title>Map</title>
     <script type='text/javascript' src="https://www.gstatic.com/charts/loader.js"></script>
-    <div id="regions_div" style="width: 900px; height: 500px;"></div>
-
-    <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['geochart'],
-        });
-        google.charts.setOnLoadCallback(drawRegionsMap);
-
-        function drawRegionsMap() {
-            var data = google.visualization.arrayToDataTable([
-                ['Latitude', 'Longitude', 'Postname'],
-                //TODO: change to postarray
-                [37.4232, -122.0853, 'San Francisco 2017']
-            ]);
-
-            var options = {
-                markerOpacity: 0.5,
-                hAxis: { minValue: 3, maxValue: 3 },
-                pointSize: 3
-            };
-
-            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-            chart.draw(data, options);
-
-            google.visualization.events.addListener(chart, 'select', selectHandler);
-
-            function selectHandler(e) {
-                //TODO: get postItem
-                alert('Change to post.');
-            }
-        }
-    </script>
 </head>
-<body>
-    <div id="floating-panel">
-        <input id="address" type="textbox" value="Sydney, NSW">
-        <input id="submit" type="button" value="Geocode">
-    </div>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
-    </script>
-    <script>
-        function initMap() {
-            var geocoder = new google.maps.Geocoder();
+    <body>
+        <div id="floating-panel">
+            <input id="address" type="textbox">
+            <input id="submit" type="button" class="btn" value="Add Location to Map">
+        </div>
+        <div id="regions_div" style="width: 900px; height: 500px;"></div>
 
-            document.getElementById('submit').addEventListener('click', function () {
-                geocodeAddress(geocoder);
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
+        </script>
+        <script>
+            var results = [];
+
+            google.charts.load('current', {
+                'packages': ['geochart'],
             });
-        }
 
-        function geocodeAddress(geocoder) {
-            var address = document.getElementById('address').value;
-            geocoder.geocode({'address': address}, function (results, status) {
-                if (status === 'OK') {
-                    alert(results[0].geometry.location);
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+            google.charts.setOnLoadCallback(drawRegionsMap);
+
+            /**
+             * drawing the geochart map
+             */
+            function drawRegionsMap() {
+                console.log(results);
+
+                var data = google.visualization.arrayToDataTable(results);
+
+                var options = {
+                    markerOpacity: 0.5,
+                    hAxis: {minValue: 3, maxValue: 3},
+                    pointSize: 3
+                };
+
+                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+                chart.draw(data, options);
+                google.visualization.events.addListener(chart, 'select', selectHandler);
+
+                function selectHandler(e) {
+                    jQuery('#dialog').dialog('open');
                 }
-            });
-        }
-    </script>
-</body>
+            }
+
+            /**
+             * add geocoding api call
+             */
+            function initMap() {
+                var geocoder = new google.maps.Geocoder();
+
+                document.getElementById('submit').addEventListener('click', function () {
+                    geocodeAddress(geocoder);
+                });
+            }
+
+            /**
+             * geocode provided address
+             *
+             * @param geocoder
+             */
+            function geocodeAddress(geocoder) {
+                var address = document.getElementById('address').value;
+                geocoder.geocode({'address': address}, function (results, status) {
+                    if (status === 'OK') {
+                        alert(results[0].geometry.location);
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+
+            function reqListener() {
+                console.log(this.responseText);
+            }
+
+            /**
+             * ajax call to get location data for user
+             * @type {XMLHttpRequest}
+             */
+            var oReq = new XMLHttpRequest();
+            oReq.onload = function () {
+                results.push(['Latitude', 'Longitude', 'Locationname']);
+                var obj = JSON.parse(this.responseText);
+
+                var arrayLength = obj.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    var result = [parseFloat(obj[i]['location'][0]['latitude']), parseFloat(obj[i]['location'][0]['longitude']),
+                        obj[i]['location'][0]['name']];
+                    results.push(result);
+                }
+            };
+            oReq.open("post", "/travel/travel/Source%20Files/src/DirectCall/getLocationData.php", true);
+            oReq.send();
+        </script>
+    </body>
 </html>

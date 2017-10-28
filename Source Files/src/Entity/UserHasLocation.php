@@ -92,8 +92,4 @@ class UserHasLocation
     {
         $this->user = $user;
     }
-
-
-
-
 }
