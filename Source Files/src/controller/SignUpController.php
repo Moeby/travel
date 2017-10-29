@@ -13,6 +13,7 @@ class SignUpController extends Controller
 
     public function signUpAction($html)
     {
+        unset($_SESSION['user']);
         $content = file_get_contents(ROOTPATH . "Source Files/app/resources/view/signUp.html");
         $html = str_replace("{{pageTitle}}", 'Signup', $html);
         $html = str_replace("{{pageContent}}", $content, $html);

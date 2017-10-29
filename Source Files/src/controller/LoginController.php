@@ -9,8 +9,9 @@ use Doctrine\DBAL\Platforms\Keywords\ReservedKeywordsValidator;
 class LoginController extends Controller {
 
     public $salt;
-    public $pepper = "NatAnA";
-    public $error  = "";
+    public $pepper        = "NatAnA";
+    public $error         = "";
+    public $givenUsername = "";
 
     public function configureOptions(OptionsResolver $resolver) {
 
@@ -22,6 +23,7 @@ class LoginController extends Controller {
         $html = str_replace("{{pageTitle}}", 'Login', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
         $html = str_replace("{{error}}", $this->error, $html);
+        $html = str_replace("{{username}}", $this->givenUsername,$html);
 
         return $html;
     }
@@ -50,6 +52,7 @@ class LoginController extends Controller {
                     echo $map->mapAction($html);
                 } else {
                     $this->error  = "Invalid credentials.";
+                    $this->givenUsername = $username;
                     echo $this->loginAction($html);
                     /*echo "Passworderror";
                     if(isset($_SESSION['user'])) {
@@ -58,7 +61,7 @@ class LoginController extends Controller {
                     }*/
                 }
             } else {
-                $this->error  = "Invalid credentials.";
+                $this->error  = "Password invalid.";
                 echo $this->loginAction($html);
                 /*echo "username error";
                 if(isset($_SESSION['user'])) {
