@@ -41,9 +41,6 @@ class LoginController extends Controller {
 
                 $compPassword = $this->getSaltedHash($givenPassword);
 
-                echo $compPassword.'<br>';
-                echo $password;
-
                 //TODO: check login errors (if wrong password, no login!)
                 if(strcmp($compPassword, $password) === 0){
                     $_SESSION['user'] = $username;
