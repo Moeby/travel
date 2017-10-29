@@ -27,6 +27,8 @@ class LoginController extends Controller {
     }
 
     public function checkUserAction($html){
+        //TODO: check if better way exists
+        unset($_SESSION['user']);
         if (!empty($_POST)){
             $username      = $_POST["username"];
             $givenPassword = $_POST["password"];
@@ -42,17 +44,27 @@ class LoginController extends Controller {
                 $compPassword = $this->getSaltedHash($givenPassword);
 
                 //TODO: check login errors (if wrong password, no login!)
-                if(strcmp($compPassword, $password) === 0){
+                if(strcmp($compPassword, $password) == 0){
                     $_SESSION['user'] = $username;
                     $map = new MapController;
                     echo $map->mapAction($html);
                 } else {
                     $this->error  = "Invalid credentials.";
                     echo $this->loginAction($html);
+                    /*echo "Passworderror";
+                    if(isset($_SESSION['user'])) {
+                        echo " session set ";
+                        echo $_SESSION['user'];
+                    }*/
                 }
             } else {
                 $this->error  = "Invalid credentials.";
                 echo $this->loginAction($html);
+                /*echo "username error";
+                if(isset($_SESSION['user'])) {
+                    echo " session set ";
+                    echo $_SESSION['user'];
+                }*/
             }
         }else{
             echo "Empty post request";

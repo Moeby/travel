@@ -23,6 +23,8 @@ class SignUpController extends Controller
 
     public function registerAction($html)
     {
+        //TODO: check if better way exists
+        unset($_SESSION['user']);
         echo $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
         if (!empty($_POST)) {
             $em = $this->getEntityManager();
