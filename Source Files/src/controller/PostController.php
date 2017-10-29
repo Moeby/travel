@@ -38,7 +38,17 @@ class PostController extends Controller {
         $em = $this->getEntityManager();
         $dir_name   = RESOURCE_ROOT."images/".$_SESSION['user']."/";
 
-        $posts = $em->getRepository('Travel\Entity\Post')->findAll();//->findBy(); only show the one from the user --> $this->getCurrentUser()
+        $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
+        $locations = $user->getLocation();
+        $posts = array();
+
+        foreach ($locations as $location) {
+            $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
+            if (!$userHasLocation->isHome()){
+                $posts[] = $userHasLocation->getPost();
+            }
+        }
+
         $content="";
         foreach ($posts as $post) {
             $content .= "<div>";
@@ -47,7 +57,6 @@ class PostController extends Controller {
             $content .= $post->getText();
             $content .= "</div>";
         }
-        $content .= '<a href="/travel/travel/Source%20Files/src/index.php?controller=Post&action=showAddPostAction">Add new post</a>';
 
         $html = str_replace("{{pageTitle}}", 'All Posts', $html);
         $html = str_replace("{{pageContent}}", $content, $html);

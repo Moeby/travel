@@ -1,5 +1,15 @@
 <div>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
+    </script>
     <h2>Sign up</h2>
+    <form>
+    <div id="floating-panel">
+        <label for="address">Home City: </label>
+        <input name="address" id="address" type="textbox">
+        <input id="submit" type="button" class="btn" value="Check">
+    </div>
+    </form>
     <form action="?controller=SignUp&action=registerAction" method="POST">
         <!-- check if username is already taken -->
         <p id="error"></p>
@@ -9,10 +19,13 @@
         <label for="password">Password: </label>
         <input name="password" type="password" id="password" required><br>
 
-        <label for="password_confirm">Repeat password: </label>
-        <input name="password2" type="password" id="password_confirm" oninput="check(this)"  required><br>
+        <input type="hidden" id="locationName" name="locationName" value="">
+        <input type="hidden" id="lat" name="lat" value="">
+        <input type="hidden" id="lng" name="lng" value="">
 
-        <input class="button" type="submit" class="btn" value="Sign up" > <!-- type="button" onclick="signup()" -->
+        <label for="password_confirm">Repeat password: </label>
+        <input name="password2" type="password" id="password_confirm" oninput="check(this)" required><br>
+        <input class="button" type="submit" id="submitbutton" class="btn" value="Sign up" disabled>
     </form>
 </div>
 <p id="errors">{{error}}</p>
@@ -22,7 +35,41 @@
             input.setCustomValidity('Password Must be Matching.');
         } else {
             // input is valid -- reset the error message
-            input.setCustomValidity('');            
+            input.setCustomValidity('');
         }
+    }
+</script>
+
+<script>
+    /**
+     * add geocoding api call
+     */
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function () {
+            geocodeAddress(geocoder);
+        });
+    }
+
+    /**
+     * geocode provided address
+     *
+     * @param geocoder
+     */
+    function geocodeAddress(geocoder) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status === 'OK') {
+                alert("City found");
+                document.getElementById('submitbutton').disabled = false;
+                document.getElementById("locationName").value = address;
+                document.getElementById("lat").value = results[0].geometry.location.lat();
+                document.getElementById("lng").value = results[0].geometry.location.lng();
+                addLocation(results[0].geometry.location.lat(), results[0].geometry.location.lng(), address);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
     }
 </script>
