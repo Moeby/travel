@@ -30,7 +30,6 @@ class PostController extends Controller {
             }
         }
 
-        //$posts = $em->getRepository('Travel\Entity\Post')->findAll();//->findBy(); only show the one from the user --> $this->getCurrentUser()
         $content="";
         foreach ($posts as $post) {
             $content .= "<div>";
@@ -39,7 +38,6 @@ class PostController extends Controller {
             $content .= $post->getText();
             $content .= "</div>";
         }
-        $content .= '<a href="/travel/travel/Source%20Files/src/index.php?controller=Post&action=showAddPostAction">Add new post</a>';
 
         $html = str_replace("{{pageTitle}}", 'All Posts', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
