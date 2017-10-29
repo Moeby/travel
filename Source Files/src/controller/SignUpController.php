@@ -47,6 +47,7 @@ class SignUpController extends Controller
 
                 //set logged in user in Session
                 $_SESSION['user'] = $_POST['username'];
+                echo $_SESSION['user'];
                 $map = new MapController;
                 echo $map->mapAction($html);
             }

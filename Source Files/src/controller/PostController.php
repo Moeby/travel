@@ -40,6 +40,7 @@ class PostController extends Controller
 
     public function showPostsAction($html)
     {
+        //TODO: check why $_SESSION['user'] isn't set
         $em = $this->getEntityManager();
         $dir_name = RESOURCE_ROOT . "images/" . $_SESSION['user'] . "/";
 
