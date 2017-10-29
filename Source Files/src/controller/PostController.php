@@ -114,7 +114,6 @@ class PostController extends Controller {
             $newImage = new Picture();
             $newImage->setFilename($image);
             $newImage->setName("myFilename");//@todo add real filename
-            $newImage->setPost
         }
         $em->flush();
     }
