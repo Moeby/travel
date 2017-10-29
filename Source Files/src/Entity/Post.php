@@ -3,6 +3,7 @@
 namespace Travel\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Post
@@ -12,6 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
+
+    public function __construct() {
+        $this->pictures = new ArrayCollection();
+    }
+
+
+
+    /**
+     * One Product has Many Features.
+     * @ORM\OneToMany(targetEntity="Travel\Entity\Picture", mappedBy="post")
+     */
+    private $pictures;
+
     /**
      * @var integer
      *
@@ -41,6 +55,10 @@ class Post
      * @ORM\Column(name="date", type="datetime", precision=0, scale=0, nullable=true, unique=false)
      */
     private $date;
+
+    public function getPictures(){
+        return $this->pictures;
+    }
 
     /**
      * Get id

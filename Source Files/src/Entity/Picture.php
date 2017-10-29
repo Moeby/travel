@@ -12,6 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Picture
 {
+
+    /**
+     * Many Features have One Product.
+     * @ORM\ManyToOne(targetEntity="Travel\Entity\Post", inversedBy="pictures")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     */
+    private $post;
+
+
     /**
      * @var integer
      *
@@ -31,19 +40,19 @@ class Picture
     /**
      * @var string
      *
-     * @ORM\Column(name="filename", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
+     * @ORM\Column(name="filename", type="string", length=300, precision=0, scale=0, nullable=true, unique=false)
      */
     private $filename;
 
-    /**
-     * @var \Travel\Entity\Post
-     *
-     * @ORM\ManyToOne(targetEntity="Travel\Entity\Post")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=true)
-     * })
-     */
-    private $post;   
+    // /**
+    //  * @var \Travel\Entity\Post
+    //  *
+    //  * @ORM\ManyToOne(targetEntity="Travel\Entity\Post")
+    //  * @ORM\JoinColumns({
+    //  *   @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=true)
+    //  * })
+    //  */
+    // private $post;   
 
 
     /**

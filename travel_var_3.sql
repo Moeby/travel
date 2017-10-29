@@ -69,7 +69,7 @@ DROP TABLE IF EXISTS `travel`.`picture` ;
 CREATE TABLE IF NOT EXISTS `travel`.`picture` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `filename` VARCHAR(45) NOT NULL,
+  `filename` VARCHAR(300) NOT NULL,
   `post_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_picture_post_idx` (`post_id` ASC),
@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `travel`.`user_has_location` (
   `user_id` INT NOT NULL,
   `location_id` INT NOT NULL,
   `post_id` INT NOT NULL,
+  `home` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`, `location_id`),
   INDEX `fk_user_has_location_location1_idx` (`location_id` ASC),
   INDEX `fk_user_has_location_user1_idx` (`user_id` ASC),

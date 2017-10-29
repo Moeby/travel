@@ -51,9 +51,14 @@ class PostController extends Controller {
 
         $content="";
         foreach ($posts as $post) {
-            $content .= "<div>";
-            $content .=  $dir_name;
+            $content .= "<div>";            
             $content .="<h1>". $post->getTitle()."</h1>";            
+            $pictures = $post->getPictures();
+            foreach($pictures as $pic){
+                $img =  'http://localhost/travel/travel/'.$pic->getFilename();
+                //http://localhost/travel/travel/Source%20Files/
+                $content .= "<img height='200px' src='".$img."'/>";  
+            }            
             $content .= $post->getText();
             $content .= "</div>";
         }
@@ -74,6 +79,7 @@ class PostController extends Controller {
     public function addPostAction(){
         $em = $this->getEntityManager();
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($_POST['postId']);
+        //var_dump($post);exit;
         $post->setText($_POST['postText']);
         $post->setTitle($_POST['postTitle']);
         $em->persist($post);
@@ -82,7 +88,8 @@ class PostController extends Controller {
         //$em->getRepository('Travel\Entity\User')->findOneBy();
 
         $username   = $_SESSION['user'];
-        $target_dir   = RESOURCE_ROOT."images/".$username."/";
+        $relativeDir = "images/".$username."/";
+        $target_dir   = RESOURCE_ROOT. $relativeDir;
         $this->createFolder($target_dir);
 
         if(is_dir($target_dir)){
@@ -90,7 +97,7 @@ class PostController extends Controller {
                 $myFile = $_FILES['pictures'];
                 $fileCount = count($myFile["name"]);
                 //check each image
-                for ($i = 0; $i < $fileCount; $i++) {
+                for ($i = 0; $i < $fileCount; $i++) {  
                     $uploadOk    =  0;
                     $target_file = $target_dir.basename($myFile["name"][$i]);
                     $file_type    = pathinfo($target_file,PATHINFO_EXTENSION);                    
@@ -120,10 +127,12 @@ class PostController extends Controller {
                         if (move_uploaded_file($myFile["tmp_name"][$i], $target_file)) {
                             // TODO: add name of picture and post id to new picture element
                             //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-                            $pictures[] = $target_file;
+                            $pictures[] =  str_replace(ROOTPATH,'', $target_file);//$relativeDir.basename($myFile["name"][$i]);
                         } else {
                             echo "Sorry, there was an error uploading your file.";exit;
                         }
+                    }else{
+                        echo "error";exit;
                     }
                 }
             }
@@ -144,12 +153,16 @@ class PostController extends Controller {
 
     private function makeNewImages($images,$post){
         $em = $this->getEntityManager();
+        $post = $post = $em->getRepository('Travel\Entity\Post')->findOneById($post->getId());
         foreach ($images as $image) {
             $newImage = new Picture();
             $newImage->setFilename($image);
             $newImage->setName("myFilename");//@todo add real filename
+            //echo $post->getId();            
             $newImage->setPost($post);
+            $em->persist($newImage);
         }
+        
         $em->flush();
     }
 
