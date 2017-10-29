@@ -46,6 +46,13 @@ class UserHasLocation
     private $user;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="home", type="boolean", nullable=false)
+     */
+    private $home;
+
+    /**
      * @return Location
      */
     public function getLocation(): Location
@@ -92,4 +99,23 @@ class UserHasLocation
     {
         $this->user = $user;
     }
+
+    /**
+     * @return bool
+     */
+    public function isHome(): bool
+    {
+        return $this->home;
+    }
+
+    /**
+     * @param bool $home
+     */
+    public function setHome(bool $home)
+    {
+        $this->home = $home;
+    }
+
+
+
 }

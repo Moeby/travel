@@ -68,6 +68,7 @@ $userHasLocation = new \Travel\Entity\UserHasLocation();
 $userHasLocation->setLocation($newLocation);
 $userHasLocation->setUser($user);
 $userHasLocation->setPost($newPost);
+$userHasLocation->setHome(true);
 
 $em->persist($userHasLocation);
 $em->flush();
