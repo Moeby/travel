@@ -154,6 +154,7 @@ class PostController extends Controller
 
             $this->redirectShowPosts();
         } else {
+            echo "dir not existing ".$target_dir;exit;
             //TODO: Error, we can't make you a new dir
         }
     }
