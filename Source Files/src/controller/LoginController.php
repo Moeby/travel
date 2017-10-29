@@ -37,8 +37,6 @@ class LoginController extends Controller {
             $em           = $this->getEntityManager();
             $user         = $em->getRepository('Travel\Entity\User')->findOneBy($criteria);
 
-            echo "User " + $user->getUsername;
-
             if(!empty($user)){
                 $password     = $user->getPassword();
                 $this->salt   = $user->getSalt();
