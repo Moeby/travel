@@ -1,5 +1,5 @@
-<div>
-    <h2>Add a Post</h2>
+<div >
+    <h2>Edit Post</h2>
     <form action="?controller=Post&action=addPostAction" enctype="multipart/form-data" method="POST">
         <p id="error"></p>
         <label for="postTitle">Title: </label>
@@ -13,6 +13,13 @@
 
 
         <input name="postId" type="hidden" id="postId" value="{{postId}}">
-        <input class="button" type="submit" class="btn" value="add post">
+        <input class="button" type="submit" class="btn" value="submit">
     </form>
+
+    <script type="text/javascript">
+        window.setTimeout(loadDefaultTinyMCEContent,1000);
+       function loadDefaultTinyMCEContent(){
+           tinyMCE.activeEditor.setContent('{{postText}}');
+       }
+    </script>
 </div>
