@@ -98,14 +98,9 @@ class PostController extends Controller
         $pictures = [];
         //$em->getRepository('Travel\Entity\User')->findOneBy();
 
-<<<<<<< HEAD
         $username   = $_SESSION['user'];
         $relativeDir = "images/".$username."/";
         $target_dir   = RESOURCE_ROOT. $relativeDir;
-=======
-        $username = $_SESSION['user'];
-        $target_dir = RESOURCE_ROOT . "images/" . $username . "/";
->>>>>>> a147dc0a6ac586ecc3ee8a226f508bb6970c1492
         $this->createFolder($target_dir);
 
         if (is_dir($target_dir)) {
@@ -113,17 +108,10 @@ class PostController extends Controller
                 $myFile = $_FILES['pictures'];
                 $fileCount = count($myFile["name"]);
                 //check each image
-<<<<<<< HEAD
                 for ($i = 0; $i < $fileCount; $i++) {  
                     $uploadOk    =  0;
                     $target_file = $target_dir.basename($myFile["name"][$i]);
                     $file_type    = pathinfo($target_file,PATHINFO_EXTENSION);                    
-=======
-                for ($i = 0; $i < $fileCount; $i++) {
-                    $uploadOk = 0;
-                    $target_file = $target_dir . basename($myFile["name"][$i]);
-                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
->>>>>>> a147dc0a6ac586ecc3ee8a226f508bb6970c1492
 
                     // check if image file is a actual image or fake image
                     if ((getimagesize($myFile["tmp_name"][$i])) === false) {
