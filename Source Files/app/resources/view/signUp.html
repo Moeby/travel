@@ -1,8 +1,9 @@
-<div>
+<div id="content">
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
     </script>
     <h2>Sign up</h2>
+    <p id="errors" class="errors">{{error}}</p>
     <form>
     <div id="floating-panel">
         <label for="address">Home City: </label>
@@ -28,7 +29,6 @@
         <input class="button" type="submit" id="submitbutton" class="btn" value="Sign up" disabled>
     </form>
 </div>
-<p id="errors">{{error}}</p>
 <script language='javascript' type='text/javascript'>
     function check(input) {
         if (input.value != document.getElementById('password').value) {

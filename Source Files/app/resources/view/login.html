@@ -1,5 +1,6 @@
-<div>
+<div id="content">
     <h2>Login</h2>
+    <p id="errors" class="errors">{{error}}</p>
     <form action="?controller=Login&action=checkUserAction" method="post">
         <label for="username">Username: </label>
         <input name="username" type="text" id="username"><br>
@@ -11,5 +12,4 @@
     </form>
 </div>
 
-<p id="errors">{{error}}</p>
 <p>You don't have a Travelling I Account yet? <a href="/travel/travel/Source%20Files/src/index.php?controller=SignUp&action=signUpAction">Sign up here...</a></p>
