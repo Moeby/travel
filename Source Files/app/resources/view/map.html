@@ -10,7 +10,7 @@
     <input id="address" type="textbox">
     <input id="submit" type="button" class="btn" value="Add Location to Map">
 </div>
-<div id="regions_div" style="width: 100%;"></div>
+<div id="regions_div" style="width: 90%;"></div>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
@@ -34,7 +34,6 @@
             var data = google.visualization.arrayToDataTable(results);
 
             var options = {
-                markerOpacity: 0.5,
                 hAxis: {minValue: 3, maxValue: 3},
                 pointSize: 3
             };

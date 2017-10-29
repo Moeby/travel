@@ -56,16 +56,16 @@ class PostController extends Controller
 
         $content = "";
         foreach ($posts as $post) {
-            $content .= "<div>";
-            $content .= "<h1>" . $post->getTitle() . "</h1>";
+            $content .= "<div class='blogpost'>";
+            $content .= "<h2>" . $post->getTitle() . "</h2>";
             $pictures = $post->getPictures();
             foreach ($pictures as $pic) {
                 $img = 'http://localhost/travel/travel' . $pic->getFilename();
                 $content .= "<img height='200px' src='" . $img . "'/>";
             }
             $content .= $post->getText();
-            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
-            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delet e</a>";
+            $content .= "<a class='button' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
+            $content .= "<a class='button' id='link2' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";
             $content .= "</div>";
         }
 
