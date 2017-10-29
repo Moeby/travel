@@ -62,7 +62,7 @@ class PostController extends Controller
             $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";        
             $pictures = $post->getPictures();
             foreach($pictures as $pic){
-                $img =  'http://localhost/travel/travel/'.$pic->getFilename();
+                $img =  'http://localhost/travel/travel'.$pic->getFilename();
                 //http://localhost/travel/travel/Source%20Files/
                 $content .= "<img height='200px' src='".$img."'/>";  
             }            
