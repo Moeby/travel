@@ -8,7 +8,7 @@ namespace Travel\Controller;
 $actions = [
     'SignUp' => ['signUpAction', 'registerAction'],
     'Login'  => ['loginAction', 'checkUserAction'],
-    'Post'   => ['showAddPostAction', 'showPostsAction', 'addPostAction'],
+    'Post'   => ['showAddPostAction', 'showPostsAction', 'addPostAction','editPostAction'],
     'Logout' => ['logoutAction'],
     'Map'    => ['mapAction']
 ];
