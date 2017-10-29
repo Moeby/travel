@@ -7,8 +7,8 @@ composer.lock
 DBNAME
 DBPWD
 DBUSER
-*.mwb.bak
 DevM
 composer.phar
 findAll()
 Source Files/app/resources/images/
+'pdo_mysql'
