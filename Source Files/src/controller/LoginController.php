@@ -51,17 +51,12 @@ class LoginController extends Controller {
                     $map = new MapController;
                     echo $map->mapAction($html);
                 } else {
-                    $this->error  = "Invalid credentials.";
+                    $this->error  = "Password invalid.";
                     $this->givenUsername = $username;
                     echo $this->loginAction($html);
-                    /*echo "Passworderror";
-                    if(isset($_SESSION['user'])) {
-                        echo " session set ";
-                        echo $_SESSION['user'];
-                    }*/
                 }
             } else {
-                $this->error  = "Password invalid.";
+                $this->error  = "Invalid credentials.";
                 echo $this->loginAction($html);
                 /*echo "username error";
                 if(isset($_SESSION['user'])) {

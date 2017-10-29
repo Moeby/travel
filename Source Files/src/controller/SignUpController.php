@@ -13,7 +13,6 @@ class SignUpController extends Controller
 
     public function signUpAction($html)
     {
-        unset($_SESSION['user']);
         $content = file_get_contents(ROOTPATH . "Source Files/app/resources/view/signUp.html");
         $html = str_replace("{{pageTitle}}", 'Signup', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
@@ -47,7 +46,6 @@ class SignUpController extends Controller
 
                 //set logged in user in Session
                 $_SESSION['user'] = $_POST['username'];
-                echo $_SESSION['user'];
                 $map = new MapController;
                 echo $map->mapAction($html);
             }
@@ -63,13 +61,20 @@ class SignUpController extends Controller
      */
     public function addHomeLocation($em, $newUser): void
     {
-        $newLocation = new \Travel\Entity\Location();
-        $newLocation->setLatitude($_POST['lat']);
-        $newLocation->setLongitude($_POST['lng']);
-        $newLocation->setName($_POST['locationName']);
+        $location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name'=> $_POST['locationName'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
 
-        $em->persist($newLocation);
-        $em->flush();
+        if(!empty($location_exists)){
+            $newLocation = $location_exists;
+        } else {
+            $newLocation     = new \Travel\Entity\Location();
+            $newLocation->setLatitude($_POST['lat']);
+            $newLocation->setLongitude($_POST['lng']);
+            $newLocation->setName($_POST['locationName']);
+            $em->persist($newLocation);
+            $em->flush();
+        }
+
+
 
         $date = new DateTime();
         $newPost = new \Travel\Entity\Post();

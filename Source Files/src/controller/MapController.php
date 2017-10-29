@@ -17,6 +17,8 @@ class MapController extends Controller
             $content = file_get_contents(RESOURCE_ROOT . 'view/login.html');
             $html = str_replace("{{pageTitle}}", 'Login', $html);
             $html = str_replace("{{pageContent}}", $content, $html);
+            $html = str_replace("{{error}}", "", $html);
+            $html = str_replace("{{username}}", "",$html);
 
             return $html;
         }

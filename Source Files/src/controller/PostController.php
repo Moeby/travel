@@ -40,7 +40,6 @@ class PostController extends Controller
 
     public function showPostsAction($html)
     {
-        //TODO: check why $_SESSION['user'] isn't set
         $em = $this->getEntityManager();
         $dir_name = RESOURCE_ROOT . "images/" . $_SESSION['user'] . "/";
 
@@ -59,14 +58,14 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $content .= "<div>";
             $content .= "<h1>" . $post->getTitle() . "</h1>";
-            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
-            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";
             $pictures = $post->getPictures();
             foreach ($pictures as $pic) {
                 $img = 'http://localhost/travel/travel' . $pic->getFilename();
                 $content .= "<img height='200px' src='" . $img . "'/>";
             }
             $content .= $post->getText();
+            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
+            $content .= "<a href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delet e</a>";
             $content .= "</div>";
         }
 
