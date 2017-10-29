@@ -42,3 +42,10 @@ h1{
     color: red;
 }
 
+#submit {
+    margin-left: 5px;
+}
+
+#submitbutton {
+    margin-top: 20px;
+}
