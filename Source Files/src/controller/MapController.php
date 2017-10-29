@@ -24,6 +24,13 @@ class MapController extends Controller
 
     public function getAllPostItems(){
         $em = $this->getEntityManager();
-        //TODO: get all location_user with certain user, get posts to this location_user and fill in array [latitude, longitude, postname]
+        $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
+        $locations =$user->getLocation();
+
+        foreach ($locations as $location){
+            $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
+            var_dump($userHasLocation->getPost()->getTitle());
+            exit;
+        }
     }
 }

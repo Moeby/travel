@@ -44,4 +44,13 @@ abstract class Controller
         return $em;
     }
 
+    public function getCurrentUser() : User
+    {
+        $em = $this->getEntityManager();
+        $username = $_SESSION['user'];
+        $user = $em->getRepository('Travel\Entity\User')->findOneBy(['username' => $username]);
+
+        return $user;
+    }
+
 }

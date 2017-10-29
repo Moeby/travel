@@ -1,3 +1,14 @@
 /nbproject/private/
 /Source Files/app/config/dbConfig.php
 .idea/
+vendor/
+cli-config.php
+composer.lock
+DBNAME
+DBPWD
+DBUSER
+DevM
+composer.phar
+findAll()
+Source Files/app/resources/images/
+'pdo_mysql'

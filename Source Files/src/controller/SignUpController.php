@@ -1,6 +1,7 @@
 <?php
 namespace Travel\Controller;
 
+use DateTime;
 use Travel\Entity\User;
 use Travel\Controller\MapController;
 
@@ -36,9 +37,10 @@ class SignUpController extends Controller
                 $newUser->setUsername($_POST['username']);
                 $newUser->setPassword($this->getSaltedHash($_POST['password']));
                 $newUser->setSalt($this->salt);
-
                 $em->persist($newUser);
                 $em->flush();
+
+                $this->addHomeLocation($em, $newUser);
 
                 //set logged in user in Session
                 $_SESSION['user'] = $_POST['username'];
@@ -51,9 +53,37 @@ class SignUpController extends Controller
         $this->signUpAction($html);
     }
 
-    private function newUser($username, $password)
+    /**
+     * @param $em
+     * @param $newUser
+     */
+    public function addHomeLocation($em, $newUser): void
     {
+        $newLocation = new \Travel\Entity\Location();
+        $newLocation->setLatitude($_POST['lat']);
+        $newLocation->setLongitude($_POST['lng']);
+        $newLocation->setName($_POST['locationName']);
 
+        $em->persist($newLocation);
+        $em->flush();
+
+        $date = new DateTime();
+        $newPost = new \Travel\Entity\Post();
+        $newPost->setDate($date);
+        $newPost->setText("");
+        $newPost->setTitle($_POST['locationName']);
+
+        $em->persist($newPost);
+        $em->flush();
+
+        $userHasLocation = new \Travel\Entity\UserHasLocation();
+        $userHasLocation->setLocation($newLocation);
+        $userHasLocation->setUser($newUser);
+        $userHasLocation->setPost($newPost);
+        $userHasLocation->setHome(true);
+
+        $em->persist($userHasLocation);
+        $em->flush();
     }
 
     function getSaltedHash($password)
