@@ -15,6 +15,25 @@ class PostController extends Controller {
         return $html;
     }
 
+    public function editPostAction($html){
+        $em = $this->getEntityManager();        
+        $postId = $_GET['id'];
+        $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
+
+        $postText=$post->getText();
+        $postTitle=$post->getTitle();
+
+        $content = file_get_contents(RESOURCE_ROOT."view/editPost.html");
+        $content = str_replace('{{postTitle}}', $postTitle, $content);
+        $content = str_replace('{{postText}}', $postText, $content);
+        $content = str_replace('{{postId}}', $postId, $content);
+
+        $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
+        $html = str_replace("{{pageContent}}", $content, $html);
+
+        return $html;
+    }
+
     public function showPostsAction($html){
         $em = $this->getEntityManager();
         $dir_name   = RESOURCE_ROOT."images/".$_SESSION['user']."/";
@@ -45,6 +64,11 @@ class PostController extends Controller {
 
     public function addPostAction(){
         $em = $this->getEntityManager();
+        $post = $em->getRepository('Travel\Entity\Post')->findOneById($_POST['postId']);
+        $post->setText($_POST['postText']);
+        $post->setTitle($_POST['postTitle']);
+        $em->persist($post);
+        $em->flush();
         $pictures = [];
         //$em->getRepository('Travel\Entity\User')->findOneBy();
 
@@ -94,8 +118,9 @@ class PostController extends Controller {
                     }
                 }
             }
-            $postId = $this->makeNewPost($_POST['postTitle'],$_POST['postText'],new DateTime()); 
-            $pictures = $this->makeNewImages($pictures);
+            //$postId = $this->makeNewPost($_POST['postTitle'],$_POST['postText'],new DateTime()); 
+
+            $pictures = $this->makeNewImages($pictures,$post);
            
             $this->redirectShowPosts();
         } else {
@@ -108,13 +133,13 @@ class PostController extends Controller {
         die();
     }
 
-    private function makeNewImages($images){
+    private function makeNewImages($images,$post){
         $em = $this->getEntityManager();
         foreach ($images as $image) {
             $newImage = new Picture();
             $newImage->setFilename($image);
             $newImage->setName("myFilename");//@todo add real filename
-            $newImage->setPost
+            $newImage->setPost($post);
         }
         $em->flush();
     }

@@ -10,7 +10,7 @@
     <input id="address" type="textbox">
     <input id="submit" type="button" class="btn" value="Add Location to Map">
 </div>
-<div id="regions_div" style="width: 900px; height: 500px;"></div>
+<div id="regions_div" style="width: 100%;"></div>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHA1629CrTs4pS1Z_QfxxdCoPzP6gul18&callback=initMap">
@@ -117,7 +117,8 @@
 
             if (request.readyState == 4 && request.status == 200) {
                 var return_data = request.responseText;
-                document.getElementById("status").innerHTML = return_data;
+                console.log(request); 
+                window.location.href = "http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id="+return_data;               
             }
         }
         // Send the data to PHP
