@@ -67,7 +67,8 @@
                 var address = document.getElementById('address').value;
                 geocoder.geocode({'address': address}, function (results, status) {
                     if (status === 'OK') {
-                        alert(results[0].geometry.location);
+                     alert(results[0].geometry.location.lat());
+                        addLocation(results[0].geometry.location.lat(), results[0].geometry.location.lng(), address);
                     } else {
                         alert('Geocode was not successful for the following reason: ' + status);
                     }
@@ -96,6 +97,26 @@
             };
             oReq.open("post", "/travel/travel/Source%20Files/src/DirectCall/getLocationData.php", true);
             oReq.send();
+
+
+            function addLocation(lat, lng, address){
+                var request = new XMLHttpRequest();
+                // Variables which need to be sent to PHP
+                var vars = "lat="+lat+"&lng="+lng+"&address="+address;
+                request.open("POST", "/travel/travel/Source%20Files/src/DirectCall/setLocationData.php", true);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                // Access the onreadystatechange event for the XMLHttpRequest object
+                request.onreadystatechange = function() {
+                    console.log(request);
+
+                    if(request.readyState == 4 && request.status == 200) {
+                        var return_data = request.responseText;
+                        document.getElementById("status").innerHTML = return_data;
+                    }
+                }
+                // Send the data to PHP
+                request.send(vars); // Actually execute the request
+            }
         </script>
     </body>
 </html>
