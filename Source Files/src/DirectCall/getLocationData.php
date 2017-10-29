@@ -48,8 +48,8 @@ $locationArray = array();
 
 foreach ($locations as $location) {
     $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
+    $locationInformation = array();
     $locationInformation[] = array("name" => $location->getName(), "latitude" => $location->getLatitude(), "longitude" => $location->getLongitude());
     $locationArray[] = array("location" => $locationInformation);
 }
-
 print json_encode($locationArray);

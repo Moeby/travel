@@ -67,7 +67,6 @@
                 var address = document.getElementById('address').value;
                 geocoder.geocode({'address': address}, function (results, status) {
                     if (status === 'OK') {
-                     alert(results[0].geometry.location.lat());
                         addLocation(results[0].geometry.location.lat(), results[0].geometry.location.lng(), address);
                     } else {
                         alert('Geocode was not successful for the following reason: ' + status);
@@ -85,6 +84,7 @@
              */
             var oReq = new XMLHttpRequest();
             oReq.onload = function () {
+                alert(this.responseText);
                 results.push(['Latitude', 'Longitude', 'Locationname']);
                 var obj = JSON.parse(this.responseText);
 
@@ -98,7 +98,12 @@
             oReq.open("post", "/travel/travel/Source%20Files/src/DirectCall/getLocationData.php", true);
             oReq.send();
 
-
+            /**
+             * add location to db
+             * @param lat
+             * @param lng
+             * @param address
+             */
             function addLocation(lat, lng, address){
                 var request = new XMLHttpRequest();
                 // Variables which need to be sent to PHP
