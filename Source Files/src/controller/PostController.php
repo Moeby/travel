@@ -109,44 +109,7 @@ class PostController extends Controller
                     $myFile = $_FILES['pictures'];
                     $fileCount = count($myFile["name"]);
                     //check each image
-                    for ($i = 0; $i < $fileCount; $i++) {
-                        $uploadOk = 0;
-                        $target_file = $target_dir . basename($myFile["name"][$i]);
-                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-
-                        // check if image file is a actual image or fake image
-                        if ((getimagesize($myFile["tmp_name"][$i])) === false) {
-                            echo $myFile["name"][$i] . " is not an image.";
-                            $uploadOk = 1;
-                        }
-                        // check if file already exists
-                        if (file_exists($target_file)) {
-                            echo "Sorry, \"" . $myFile["name"][$i] . "\" already exists.";
-                            $uploadOk = 1;
-                        }
-                        // check file size
-                        if ($myFile["size"][$i] > 5000000) {
-                            echo "Sorry, \"" . $myFile["name"][$i] . "\" is too large.";
-                            $uploadOk = 1;
-                        }
-                        // allow certain file formats
-                        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "gif") {
-                            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                            $uploadOk = 1;
-                        }
-                        // as everything is fine you can add the picture to the directory
-                        if ($uploadOk < 1) {
-                            if (move_uploaded_file($myFile["tmp_name"][$i], $target_file)) {
-                                $pictures[] = str_replace(ROOTPATH, '', $target_file);//$relativeDir.basename($myFile["name"][$i]);
-                            } else {
-                                echo "Sorry, there was an error uploading your file.";
-                                exit;
-                            }
-                        } else {
-                            echo "error";
-                            exit;
-                        }
-                    }
+                    $pictures = $this->checkPicture($fileCount, $target_dir, $myFile, $pictures);
                 }
                 $this->makeNewImages($pictures, $post);
                 $this->redirectShowPosts();
@@ -220,5 +183,55 @@ class PostController extends Controller
             echo "You do not have the required permissions to delete this post";
             exit;
         }
+    }
+
+    /**
+     * @param $fileCount
+     * @param $target_dir
+     * @param $myFile
+     * @param $pictures
+     * @return array
+     */
+    public function checkPicture($fileCount, $target_dir, $myFile, $pictures): array
+    {
+        for ($i = 0; $i < $fileCount; $i++) {
+            $uploadOk = 0;
+            $target_file = $target_dir . basename($myFile["name"][$i]);
+            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+            // check if image file is a actual image or fake image
+            if ((getimagesize($myFile["tmp_name"][$i])) === false) {
+                echo $myFile["name"][$i] . " is not an image.";
+                $uploadOk = 1;
+            }
+            // check if file already exists
+            if (file_exists($target_file)) {
+                echo "Sorry, \"" . $myFile["name"][$i] . "\" already exists.";
+                $uploadOk = 1;
+            }
+            // check file size
+            if ($myFile["size"][$i] > 5000000) {
+                echo "Sorry, \"" . $myFile["name"][$i] . "\" is too large.";
+                $uploadOk = 1;
+            }
+            // allow certain file formats
+            if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "gif") {
+                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 1;
+            }
+            // as everything is fine you can add the picture to the directory
+            if ($uploadOk < 1) {
+                if (move_uploaded_file($myFile["tmp_name"][$i], $target_file)) {
+                    $pictures[] = str_replace(ROOTPATH, '', $target_file);//$relativeDir.basename($myFile["name"][$i]);
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                    exit;
+                }
+            } else {
+                echo "error";
+                exit;
+            }
+        }
+        return $pictures;
     }
 }
