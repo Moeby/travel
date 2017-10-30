@@ -45,13 +45,18 @@ $em = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 //*********************************************************************************
 $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
 
-$newLocation = new \Travel\Entity\Location();
-$newLocation->setLatitude($_POST['lat']);
-$newLocation->setLongitude($_POST['lng']);
-$newLocation->setName($_POST['address']);
+$location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name' => $_POST['locationName'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
 
-$em->persist($newLocation);
-$em->flush();
+if (!empty($location_exists)) {
+    $newLocation = $location_exists;
+} else {
+    $newLocation = new \Travel\Entity\Location();
+    $newLocation->setLatitude($_POST['lat']);
+    $newLocation->setLongitude($_POST['lng']);
+    $newLocation->setName($_POST['adress']);
+    $em->persist($newLocation);
+    $em->flush();
+}
 
 $date = new DateTime();
 $newPost = new \Travel\Entity\Post();
