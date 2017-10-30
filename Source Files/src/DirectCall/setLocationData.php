@@ -4,6 +4,9 @@ namespace Travel\DirectCall;
 session_start();
 
 use DateTime;
+use Travel\Entity\User;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/vendor/autoload.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";

@@ -96,6 +96,10 @@ circle {
    stroke: #0dccc0;
 }
 
+.mapbutton{
+    float: none !important;
+}
+
 .blogpost {
     margin-bottom: 40px;
 }

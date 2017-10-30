@@ -1,6 +1,10 @@
 <?php
 
 namespace Travel\DirectCall;
+use Travel\Entity\User;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
 session_start();
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/vendor/autoload.php";
