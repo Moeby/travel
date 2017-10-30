@@ -3,8 +3,6 @@
 namespace Travel\Controller;
 
 use Travel\Entity\Picture;
-use Travel\Entity\Post;
-use Travel\Entity\User;
 
 class PostController extends Controller
 {
