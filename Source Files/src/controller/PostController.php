@@ -4,6 +4,7 @@ namespace Travel\Controller;
 
 use Travel\Entity\Picture;
 use Travel\Entity\Post;
+use Travel\Entity\User;
 
 class PostController extends Controller
 {
@@ -20,6 +21,7 @@ class PostController extends Controller
     public function editPostAction($html)
     {
         $em = $this->getEntityManager();
+
         $postId = $_GET['id'];
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
 
@@ -31,8 +33,10 @@ class PostController extends Controller
         $content = str_replace('{{postText}}', $postText, $content);
         $content = str_replace('{{postId}}', $postId, $content);
 
+        $html = str_replace("{{username}}", $this->getCurrentUser()->getUsername(), $html);
         $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
+
 
         return $html;
     }
@@ -40,7 +44,6 @@ class PostController extends Controller
     public function showPostsAction($html)
     {
         $em = $this->getEntityManager();
-        $dir_name = RESOURCE_ROOT . "images/" . $_SESSION['user'] . "/";
 
         $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
         $locations = $user->getLocation();
@@ -147,7 +150,7 @@ class PostController extends Controller
                         }
                     }
                 }
-                $pictures = $this->makeNewImages($pictures, $post);
+                $this->makeNewImages($pictures, $post);
                 $this->redirectShowPosts();
             } else {
                 echo "dir not existing " . $target_dir;
@@ -172,26 +175,12 @@ class PostController extends Controller
         foreach ($images as $image) {
             $newImage = new Picture();
             $newImage->setFilename($image);
-            $newImage->setName("myFilename");//@todo add real filename
+            $newImage->setName("myFilename");
             $newImage->setPost($post);
             $em->persist($newImage);
         }
 
         $em->flush();
-    }
-
-    private function makeNewPost($title, $text, $date)
-    {
-        $em = $this->getEntityManager();
-        //set user
-        $newPost = new Post();
-        $newPost->setTitle($title);
-        $newPost->setText($text);
-        $newPost->setDate($date);
-        $em->persist($newPost);
-        $em->flush();
-
-        return $newPost->getId();
     }
 
     function getPost($html)
