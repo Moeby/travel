@@ -1,18 +1,14 @@
 <?php
+
 namespace Travel\Controller;
-//TODO: keep session start here or in index.php?
-//session_start();
 
 use Travel\Entity\User;
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/vendor/autoload.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
 
 abstract class Controller
 {
-
     public function getEntityManager()
     {
         $paths = array($_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/src/Entity");
@@ -29,7 +25,7 @@ abstract class Controller
         $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
             ['src/Entity'],
             true,
-            'C:\tmp\cache',//__DIR__ . '../cache/proxies',
+            'C:\tmp\cache',
             null,
             false
         );
@@ -44,7 +40,7 @@ abstract class Controller
         return $em;
     }
 
-    public function getCurrentUser() : User
+    public function getCurrentUser(): User
     {
         $em = $this->getEntityManager();
         $username = $_SESSION['user'];

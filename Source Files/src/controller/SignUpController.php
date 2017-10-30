@@ -1,9 +1,9 @@
 <?php
+
 namespace Travel\Controller;
 
 use DateTime;
 use Travel\Entity\User;
-use Travel\Controller\MapController;
 
 class SignUpController extends Controller
 {
@@ -23,9 +23,7 @@ class SignUpController extends Controller
 
     public function registerAction($html)
     {
-        //TODO: check if better way exists
         unset($_SESSION['user']);
-        //echo $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config/dbConfig.php";
         if (!empty($_POST)) {
             $em = $this->getEntityManager();
             //check if username already taken
@@ -41,7 +39,6 @@ class SignUpController extends Controller
                 $newUser->setSalt($this->salt);
                 $em->persist($newUser);
                 $em->flush();
-
                 $this->addHomeLocation($em, $newUser);
 
                 //set logged in user in Session
@@ -51,6 +48,7 @@ class SignUpController extends Controller
             }
         } else {
             echo "Empty post request";
+            exit;
         }
         $this->signUpAction($html);
     }
@@ -61,21 +59,18 @@ class SignUpController extends Controller
      */
     public function addHomeLocation($em, $newUser): void
     {
-        $location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name'=> $_POST['locationName'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
+        $location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name' => $_POST['locationName'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
 
-        if(!empty($location_exists)){
+        if (!empty($location_exists)) {
             $newLocation = $location_exists;
         } else {
-            $newLocation     = new \Travel\Entity\Location();
+            $newLocation = new \Travel\Entity\Location();
             $newLocation->setLatitude($_POST['lat']);
             $newLocation->setLongitude($_POST['lng']);
             $newLocation->setName($_POST['locationName']);
             $em->persist($newLocation);
             $em->flush();
         }
-
-
-
         $date = new DateTime();
         $newPost = new \Travel\Entity\Post();
         $newPost->setDate($date);
@@ -104,9 +99,10 @@ class SignUpController extends Controller
         return password_hash($password . $this->pepper, PASSWORD_BCRYPT, $options);
     }
 
-    public function genSalt() {
+    public function genSalt()
+    {
         $seed = '';
-        for($i = 0; $i < 16; $i++) {
+        for ($i = 0; $i < 16; $i++) {
             $seed .= chr(mt_rand(0, 255));
         }
         /* GenSalt */

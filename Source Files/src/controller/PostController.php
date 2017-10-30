@@ -7,7 +7,6 @@ use Travel\Entity\Post;
 
 class PostController extends Controller
 {
-
     public function showAddPostAction($html)
     {
         $content = file_get_contents(RESOURCE_ROOT . "view/addPost.html");
@@ -53,12 +52,13 @@ class PostController extends Controller
                 $posts[] = $userHasLocation->getPost();
             }
         }
-
         $content = "";
+
         foreach ($posts as $post) {
             $content .= "<div class='blogpost'>";
             $content .= "<h2>" . $post->getTitle() . "</h2>";
             $pictures = $post->getPictures();
+
             foreach ($pictures as $pic) {
                 $img = 'http://localhost/travel/travel' . $pic->getFilename();
                 $content .= "<img height='200px' src='" . $img . "'/>";
@@ -68,8 +68,6 @@ class PostController extends Controller
             $content .= "<a class='button' id='link2' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";
             $content .= "</div>";
         }
-
-
         $html = str_replace("{{pageTitle}}", 'All Posts', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
         $html = str_replace("{{username}}", $_SESSION['user'], $html);
@@ -175,7 +173,6 @@ class PostController extends Controller
             $newImage = new Picture();
             $newImage->setFilename($image);
             $newImage->setName("myFilename");//@todo add real filename
-            //echo $post->getId();            
             $newImage->setPost($post);
             $em->persist($newImage);
         }
@@ -222,7 +219,7 @@ class PostController extends Controller
             $pictures = $post->getPictures();
 
             foreach ($pictures as $picture) {
-                unlink(ROOTPATH.$picture->getFilename());
+                unlink(ROOTPATH . $picture->getFilename());
                 $em->remove($picture);
                 $em->flush();
             }

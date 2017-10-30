@@ -45,7 +45,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="string", length=450, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="text", type="text", nullable=false, unique=false)
      */
     private $text;
 

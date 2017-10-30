@@ -11,15 +11,13 @@ if (isset($_SESSION['user'])) {
 }
 $html = str_replace("{{goToResource}}", '../app/resources/', $html);
 
-//require_once('model/dbConnection/DB.php');
-//$db = new DB();
 
 if (isset($_GET['controller']) && isset($_GET['action'])) {
     $controller = $_GET['controller'];
-    $action     = $_GET['action'];
+    $action = $_GET['action'];
 } else {
     $controller = 'Login';
-    $action     = 'loginAction';
+    $action = 'loginAction';
 }
 
 require_once('../app/config/route.php');
