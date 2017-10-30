@@ -105,9 +105,8 @@ class SignUpController extends Controller
         for ($i = 0; $i < 16; $i++) {
             $seed .= chr(mt_rand(0, 255));
         }
-        /* GenSalt */
         $salt = substr(strtr(base64_encode($seed), '+', '.'), 0, 22);
-        /* Return */
+
         return $salt;
     }
 }

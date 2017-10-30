@@ -35,7 +35,6 @@ class PostController extends Controller
         $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
         $html = str_replace("{{pageContent}}", $content, $html);
 
-
         return $html;
     }
 
@@ -43,9 +42,10 @@ class PostController extends Controller
     {
         $em = $this->getEntityManager();
 
-        $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
+        $user = $this->getCurrentUser();
         $locations = $user->getLocation();
         $posts = array();
+        $content = "";
 
         foreach ($locations as $location) {
             $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
@@ -53,7 +53,6 @@ class PostController extends Controller
                 $posts[] = $userHasLocation->getPost();
             }
         }
-        $content = "";
 
         foreach ($posts as $post) {
             $content .= "<div class='blogpost'>";
@@ -88,7 +87,7 @@ class PostController extends Controller
     {
         $em = $this->getEntityManager();
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($_POST['postId']);
-        $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
+        $user = $this->getCurrentUser();
         $userHasLocation = $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "post" => $post));
 
         //check that the post belongs to the user that is logged in
@@ -140,7 +139,6 @@ class PostController extends Controller
             $newImage->setPost($post);
             $em->persist($newImage);
         }
-
         $em->flush();
     }
 
@@ -157,7 +155,7 @@ class PostController extends Controller
     function deletePostAction($html)
     {
         $em = $this->getEntityManager();
-        $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
+        $user = $this->getCurrentUser();
 
         $postId = $_GET['id'];
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
