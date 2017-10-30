@@ -18,6 +18,7 @@ nav {
     border-radius: 5px;
     color: #fff;
     padding: 2px 10px 2px 10px;
+    cursor: pointer;
 }
 
 .btn:disabled {
@@ -49,3 +50,10 @@ h1{
     color: red;
 }
 
+#submit {
+    margin-left: 5px;
+}
+
+#submitbutton {
+    margin-top: 20px;
+}
