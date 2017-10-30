@@ -171,9 +171,7 @@ class PostController extends Controller
                 $em->remove($picture);
                 $em->flush();
             }
-            $location = $userHasLocation->getLocation();
             $em->remove($userHasLocation);
-            $em->remove($location);
             $em->remove($post);
             $em->flush();
             echo $this->showPostsAction($html);
