@@ -6,21 +6,6 @@ use Travel\Entity\Picture;
 
 class PostController extends Controller
 {
-    /**
-     * Show add post page
-     *
-     * @param $html
-     * @return assembled add post page
-     */
-    public function showAddPostAction($html)
-    {
-        $content = file_get_contents(RESOURCE_ROOT . "view/addPost.html");
-
-        $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
-        $html = str_replace("{{pageContent}}", $content, $html);
-
-        return $html;
-    }
 
     /**
      * Show the edit post page for the selected Post
@@ -31,21 +16,25 @@ class PostController extends Controller
     public function editPostAction($html)
     {
         $em = $this->getEntityManager();
-
         $postId = $_GET['id'];
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
+        $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $this->getCurrentUser(), "post" => $post));
 
-        $postText = $post->getText();
-        $postTitle = $post->getTitle();
+        if (isset($_SESSION['user']) && !empty($userHasLocation)) {
+            $postText = $post->getText();
+            $postTitle = $post->getTitle();
 
-        $content = file_get_contents(RESOURCE_ROOT . "view/editPost.html");
-        $content = str_replace('{{postTitle}}', $postTitle, $content);
-        $content = str_replace('{{postText}}', $postText, $content);
-        $content = str_replace('{{postId}}', $postId, $content);
+            $content = file_get_contents(RESOURCE_ROOT . "view/editPost.html");
+            $content = str_replace('{{postTitle}}', $postTitle, $content);
+            $content = str_replace('{{postText}}', $postText, $content);
+            $content = str_replace('{{postId}}', $postId, $content);
 
-        $html = str_replace("{{username}}", $this->getCurrentUser()->getUsername(), $html);
-        $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
-        $html = str_replace("{{pageContent}}", $content, $html);
+            $html = str_replace("{{username}}", $this->getCurrentUser()->getUsername(), $html);
+            $html = str_replace("{{pageTitle}}", 'Add a Post', $html);
+            $html = str_replace("{{pageContent}}", $content, $html);
+        } else {
+            $html = $this->showPostsAction($html);
+        }
 
         return $html;
     }
@@ -207,28 +196,38 @@ class PostController extends Controller
     function deletePostAction($html)
     {
         $em = $this->getEntityManager();
-        $user = $this->getCurrentUser();
-
         $postId = $_GET['id'];
         $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
+        $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $this->getCurrentUser(), "post" => $post));
 
-        $userHasLocation = $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "post" => $post));
+        if (isset($_SESSION['user']) && !empty($userHasLocation)) {
+            $em = $this->getEntityManager();
+            $user = $this->getCurrentUser();
 
-        //check that the post belongs to the user that is logged in
-        if ($user->getUsername() === $userHasLocation->getUser()->getUsername()) {
-            $pictures = $post->getPictures();
+            $postId = $_GET['id'];
+            $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
 
-            foreach ($pictures as $picture) {
-                unlink(ROOTPATH . $picture->getFilename());
-                $em->remove($picture);
+            $userHasLocation = $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "post" => $post));
+
+            //check that the post belongs to the user that is logged in
+            if ($user->getUsername() === $userHasLocation->getUser()->getUsername()) {
+                $pictures = $post->getPictures();
+
+                foreach ($pictures as $picture) {
+                    unlink(ROOTPATH . $picture->getFilename());
+                    $em->remove($picture);
+                    $em->flush();
+                }
+                $em->remove($userHasLocation);
+                $em->remove($post);
                 $em->flush();
+                echo $this->showPostsAction($html);
+            } else {
+                echo "You do not have the required permissions to delete this post";
+                exit;
             }
-            $em->remove($userHasLocation);
-            $em->remove($post);
-            $em->flush();
-            echo $this->showPostsAction($html);
         } else {
-            echo "You do not have the required permissions to delete this post";
+            echo "You do not have the necessary permissions to delete this post";
             exit;
         }
     }
