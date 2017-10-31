@@ -14,8 +14,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config
 //*********************************************************************************
 // Set up entity manager
 //*********************************************************************************
-$paths = array($_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/src/Entity");
-$isDevMode = true;
 
 // the connection configuration
 $dbParams = array(
@@ -45,7 +43,7 @@ $em = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 //*********************************************************************************
 $user = $em->getRepository('Travel\Entity\User')->findOneBy(array("username" => $_SESSION['user']));
 
-$location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name' => $_POST['locationName'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
+$location_exists = $em->getRepository('Travel\Entity\Location')->findOneBy(array('name' => $_POST['address'], 'latitude' => $_POST['lat'], 'longitude' => $_POST['lng']));
 
 if (!empty($location_exists)) {
     $newLocation = $location_exists;
@@ -53,7 +51,7 @@ if (!empty($location_exists)) {
     $newLocation = new \Travel\Entity\Location();
     $newLocation->setLatitude($_POST['lat']);
     $newLocation->setLongitude($_POST['lng']);
-    $newLocation->setName($_POST['adress']);
+    $newLocation->setName($_POST['address']);
     $em->persist($newLocation);
     $em->flush();
 }

@@ -10,6 +10,12 @@ class LoginController extends Controller
     public $error = "";
     public $givenUsername = "";
 
+    /**
+     * Assemble login page
+     *
+     * @param $html the template
+     * @return $html containing login.html
+     */
     public function loginAction($html)
     {
         $content = file_get_contents(RESOURCE_ROOT . "view/login.html");
@@ -21,6 +27,11 @@ class LoginController extends Controller
         return $html;
     }
 
+    /**
+     * Check if login successful and set Session var
+     *
+     * @param $html
+     */
     public function checkUserAction($html)
     {
         unset($_SESSION['user']);
@@ -53,10 +64,10 @@ class LoginController extends Controller
         } else {
             echo "Empty post request";
         }
-        exit;//redirect here
+        exit;
     }
 
-    function getSaltedHash($password)
+    private function getSaltedHash($password)
     {
         $options = [
             'salt' => $this->salt

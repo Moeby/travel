@@ -4,6 +4,12 @@ namespace Travel\Controller;
 
 class MapController extends Controller
 {
+    /**
+     * Assemble map page if user is actually logged in, otherwise return login
+     *
+     * @param $html
+     * @return the assembled html
+     */
     public function mapAction($html)
     {
         if (isset($_SESSION['user'])) {

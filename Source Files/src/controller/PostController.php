@@ -6,6 +6,12 @@ use Travel\Entity\Picture;
 
 class PostController extends Controller
 {
+    /**
+     * Show add post page
+     *
+     * @param $html
+     * @return assembled add post page
+     */
     public function showAddPostAction($html)
     {
         $content = file_get_contents(RESOURCE_ROOT . "view/addPost.html");
@@ -16,6 +22,12 @@ class PostController extends Controller
         return $html;
     }
 
+    /**
+     * Show the edit post page for the selected Post
+     *
+     * @param $html
+     * @return assembled edit post view
+     */
     public function editPostAction($html)
     {
         $em = $this->getEntityManager();
@@ -38,51 +50,60 @@ class PostController extends Controller
         return $html;
     }
 
+    /**
+     * Show all posts for logged in user
+     *
+     * @param $html
+     * @return assembled view posts
+     */
     public function showPostsAction($html)
     {
-        $em = $this->getEntityManager();
+        if (isset($_SESSION['user'])) {
+            $em = $this->getEntityManager();
 
-        $user = $this->getCurrentUser();
-        $locations = $user->getLocation();
-        $posts = array();
-        $content = "";
+            $user = $this->getCurrentUser();
+            $locations = $user->getLocation();
+            $posts = array();
+            $content = "";
 
-        foreach ($locations as $location) {
-            $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
-            if (!$userHasLocation->isHome()) {
-                $posts[] = $userHasLocation->getPost();
+            foreach ($locations as $location) {
+                $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "location" => $location));
+                if (!$userHasLocation->isHome()) {
+                    $posts[] = $userHasLocation->getPost();
+                }
             }
-        }
 
-        foreach ($posts as $post) {
-            $content .= "<div class='blogpost'>";
-            $content .= "<h2>" . $post->getTitle() . "</h2>";
-            $pictures = $post->getPictures();
+            foreach ($posts as $post) {
+                $content .= "<div class='blogpost'>";
+                $content .= "<h2>" . $post->getTitle() . "</h2>";
+                $pictures = $post->getPictures();
 
-            foreach ($pictures as $pic) {
-                $img = 'http://localhost/travel/travel' . $pic->getFilename();
-                $content .= "<img height='200px' src='" . $img . "'/>";
+                foreach ($pictures as $pic) {
+                    $img = 'http://localhost/travel/travel' . $pic->getFilename();
+                    $content .= "<img height='200px' src='" . $img . "'/>";
+                }
+                $content .= $post->getText();
+                $content .= "<a class='button' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
+                $content .= "<a class='button' id='link2' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";
+                $content .= "</div>";
             }
-            $content .= $post->getText();
-            $content .= "<a class='button' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=editPostAction&id=" . $post->getId() . "'>Edit</a>";
-            $content .= "<a class='button' id='link2' href='http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=deletePostAction&id=" . $post->getId() . "'>Delete</a>";
-            $content .= "</div>";
+            $html = str_replace("{{pageTitle}}", 'All Posts', $html);
+            $html = str_replace("{{pageContent}}", $content, $html);
+            $html = str_replace("{{username}}", $_SESSION['user'], $html);
+        } else {
+            $content = file_get_contents(RESOURCE_ROOT . 'view/login.html');
+            $html = str_replace("{{pageTitle}}", 'Login', $html);
+            $html = str_replace("{{pageContent}}", $content, $html);
+            $html = str_replace("{{error}}", "", $html);
+            $html = str_replace("{{username}}", "", $html);
         }
-        $html = str_replace("{{pageTitle}}", 'All Posts', $html);
-        $html = str_replace("{{pageContent}}", $content, $html);
-        $html = str_replace("{{username}}", $_SESSION['user'], $html);
 
         return $html;
     }
 
-
-    private function createFolder($dir_name)
-    {
-        if (!is_dir($dir_name)) {
-            mkdir($dir_name, 0777, true);
-        }
-    }
-
+    /**
+     *  Add post
+     */
     public function addPostAction()
     {
         $em = $this->getEntityManager();
@@ -118,65 +139,6 @@ class PostController extends Controller
             }
         } else {
             echo "You do not have the required permissions to edit this post";
-            exit;
-        }
-    }
-
-    private function redirectShowPosts()
-    {
-        header("Location: http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=showPostsAction");
-        die();
-    }
-
-    private function makeNewImages($images, $post)
-    {
-        $em = $this->getEntityManager();
-        $post = $post = $em->getRepository('Travel\Entity\Post')->findOneById($post->getId());
-        foreach ($images as $image) {
-            $newImage = new Picture();
-            $newImage->setFilename($image);
-            $newImage->setName("myFilename");
-            $newImage->setPost($post);
-            $em->persist($newImage);
-        }
-        $em->flush();
-    }
-
-    function getPost($html)
-    {
-        $content = file_get_contents(RESOURCE_ROOT . "view/post.html");
-
-        $html = str_replace("{{pageTitle}}", 'PostTitle', $html);
-        $html = str_replace("{{pageContent}}", $content, $html);
-
-        return $html;
-    }
-
-    function deletePostAction($html)
-    {
-        $em = $this->getEntityManager();
-        $user = $this->getCurrentUser();
-
-        $postId = $_GET['id'];
-        $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
-
-        $userHasLocation = $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "post" => $post));
-
-        //check that the post belongs to the user that is logged in
-        if ($user->getUsername() === $userHasLocation->getUser()->getUsername()) {
-            $pictures = $post->getPictures();
-
-            foreach ($pictures as $picture) {
-                unlink(ROOTPATH . $picture->getFilename());
-                $em->remove($picture);
-                $em->flush();
-            }
-            $em->remove($userHasLocation);
-            $em->remove($post);
-            $em->flush();
-            echo $this->showPostsAction($html);
-        } else {
-            echo "You do not have the required permissions to delete this post";
             exit;
         }
     }
@@ -229,5 +191,72 @@ class PostController extends Controller
             }
         }
         return $pictures;
+    }
+
+
+    function getPost($html)
+    {
+        $content = file_get_contents(RESOURCE_ROOT . "view/post.html");
+
+        $html = str_replace("{{pageTitle}}", 'PostTitle', $html);
+        $html = str_replace("{{pageContent}}", $content, $html);
+
+        return $html;
+    }
+
+    function deletePostAction($html)
+    {
+        $em = $this->getEntityManager();
+        $user = $this->getCurrentUser();
+
+        $postId = $_GET['id'];
+        $post = $em->getRepository('Travel\Entity\Post')->findOneById($postId);
+
+        $userHasLocation = $userHasLocation = $em->getRepository('Travel\Entity\UserHasLocation')->findOneBy(array("user" => $user, "post" => $post));
+
+        //check that the post belongs to the user that is logged in
+        if ($user->getUsername() === $userHasLocation->getUser()->getUsername()) {
+            $pictures = $post->getPictures();
+
+            foreach ($pictures as $picture) {
+                unlink(ROOTPATH . $picture->getFilename());
+                $em->remove($picture);
+                $em->flush();
+            }
+            $em->remove($userHasLocation);
+            $em->remove($post);
+            $em->flush();
+            echo $this->showPostsAction($html);
+        } else {
+            echo "You do not have the required permissions to delete this post";
+            exit;
+        }
+    }
+
+    private function createFolder($dir_name)
+    {
+        if (!is_dir($dir_name)) {
+            mkdir($dir_name, 0777, true);
+        }
+    }
+
+    private function redirectShowPosts()
+    {
+        header("Location: http://localhost/travel/travel/Source%20Files/src/index.php?controller=Post&action=showPostsAction");
+        die();
+    }
+
+    private function makeNewImages($images, $post)
+    {
+        $em = $this->getEntityManager();
+        $post = $post = $em->getRepository('Travel\Entity\Post')->findOneById($post->getId());
+        foreach ($images as $image) {
+            $newImage = new Picture();
+            $newImage->setFilename($image);
+            $newImage->setName("myFilename");
+            $newImage->setPost($post);
+            $em->persist($newImage);
+        }
+        $em->flush();
     }
 }

@@ -13,8 +13,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config
 //*********************************************************************************
 // Set up entity manager
 //*********************************************************************************
-$paths = array($_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/src/Entity");
-$isDevMode = true;
 
 // the connection configuration
 $dbParams = array(

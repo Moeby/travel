@@ -11,6 +11,12 @@ class SignUpController extends Controller
     public $salt;
     public $pepper = "NatAnA";
 
+    /**
+     * Show signup view
+     *
+     * @param $html
+     * @return assembled html
+     */
     public function signUpAction($html)
     {
         $content = file_get_contents(ROOTPATH . "Source Files/app/resources/view/signUp.html");
@@ -21,6 +27,11 @@ class SignUpController extends Controller
         return $html;
     }
 
+    /**
+     * Add the new user if username is not already taken
+     *
+     * @param $html
+     */
     public function registerAction($html)
     {
         unset($_SESSION['user']);
@@ -54,8 +65,10 @@ class SignUpController extends Controller
     }
 
     /**
-     * @param $em
-     * @param $newUser
+     * Add location with home flag
+     *
+     * @param $em Entity Manager
+     * @param $newUser the newly created User obj
      */
     public function addHomeLocation($em, $newUser): void
     {
@@ -90,7 +103,7 @@ class SignUpController extends Controller
         $em->flush();
     }
 
-    function getSaltedHash($password)
+    private function getSaltedHash($password)
     {
         $this->salt = $this->genSalt();
         $options = [
@@ -99,7 +112,7 @@ class SignUpController extends Controller
         return password_hash($password . $this->pepper, PASSWORD_BCRYPT, $options);
     }
 
-    public function genSalt()
+    private function genSalt()
     {
         $seed = '';
         for ($i = 0; $i < 16; $i++) {

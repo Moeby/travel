@@ -9,11 +9,13 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/app/config
 
 abstract class Controller
 {
+    /**
+     * Connect to database and configure connection for Entity Manager object
+     *
+     * @return the configured Entity Manager object
+     */
     public function getEntityManager()
     {
-        $paths = array($_SERVER["DOCUMENT_ROOT"] . "/travel/travel/Source Files/src/Entity");
-        $isDevMode = true;
-
         // the connection configuration
         $dbParams = array(
             'driver' => 'pdo_mysql',
@@ -40,6 +42,11 @@ abstract class Controller
         return $em;
     }
 
+    /**
+     * Get the currently logged in user from the username saved in the session
+     *
+     * @return the currently logged in User
+     */
     public function getCurrentUser(): User
     {
         $em = $this->getEntityManager();
